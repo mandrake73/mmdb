@@ -2,7 +2,7 @@ var phonecatAnimations = angular.module('phonecatAnimations', ['ngAnimate']);
 
 phonecatAnimations.animation('.phone', function() {
 
-  var animateUp = function(element, className, done) {
+ /* var animateUp = function(element, className, done) {
     if(className != 'active') {
       return;
     }
@@ -48,5 +48,5 @@ phonecatAnimations.animation('.phone', function() {
   return {
     addClass: animateUp,
     removeClass: animateDown
-  };
+  };*/
 });

@@ -40,7 +40,7 @@ app.get('/partials/:name', routes.partials);
 
 app.get('/api/movies', api.movies);
 
-app.get('/api/movie/:name', api.movie);
+app.get('/api/movies/:name', api.movie);
 app.post('/api/post', api.addPost);
 app.put('/api/post/:id', api.editPost);
 app.delete('/api/post/:id', api.deletePost);

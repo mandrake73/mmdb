@@ -41,9 +41,9 @@ exports.movies = function (req, res) {
 		}
 	},
 	function (err, count) {
-		res.json({
-    		movies: movies
-  		});
+		res.json(
+    		movies
+  		);
 	});
 		
 };
@@ -52,9 +52,9 @@ exports.movies = function (req, res) {
 exports.movie = function (req, res) {
   var name = req.params.name;
   //if (id >= 0 && id < data.posts.length) {
-    res.json({
-      movie: data.posts[0]
-    });
+    res.json(
+      data.posts[0]
+    );
   /*} else {
     res.json(false);
   }*/
