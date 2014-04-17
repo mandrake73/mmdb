@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AngularJS Phone Catalog Tutorial Application
 
 ## Overview
@@ -243,3 +244,7 @@ For more information on AngularJS please check out http://angularjs.org/
 [protractor]: https://github.com/angular/protractor
 [jasmine]: http://pivotal.github.com/jasmine/
 [karma]: http://karma-runner.github.io
+=======
+mmdb
+====
+>>>>>>> 5caa49601ded970be479de6de11b293ff25af501
