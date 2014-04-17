@@ -2,7 +2,13 @@
 
 <ul id="movie-list"class="list-inline">
   <li ng-repeat='movie in movies'>
-    <a href='#/movies/{{movie.name}}'>
+    <a ui-sref='movies.detail({movieId: movie.name})'>
       <h3>{{movie.name}}</h3>
       <div> {{movie.dateAdded}}</div>
       <img src='{{movie.img}}' alt='{{movie.name}}'/>
+	</a>
+  </li>
+</ul>
+
+<div ui-view>
+</div>

@@ -10,6 +10,7 @@
   <script src="bower_components/jquery/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="js/app.js"></script>
@@ -28,10 +29,10 @@
 						<h3 class="masthead-brand">My Movie DB</h3>
 						<ul class="nav masthead-nav">
 							<li class="active">
-								<a href="#/movies">Movies</a>
+								<a ui-sref="movies">Movies</a>
 							</li>
 							<li>
-								<a href="#/tvshows">TV Shows</a>
+								<a ui-sref="tvshows">TV Shows</a>
 							</li>
 						</ul>
 					</div>
@@ -41,7 +42,7 @@
 				<div class="inner cover">
 					<p class="lead">
 					</p>
-					<div ng-view class="view-container"></div>
+					<div ui-view class="view-container"></div>
 				</div>
 			</div>
 		</div>

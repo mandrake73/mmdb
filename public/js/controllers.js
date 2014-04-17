@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var phonecatControllers = angular.module('phonecatControllers', []);
+var phonecatControllers = angular.module('phonecatControllers', ['ui.router']);
 
 phonecatControllers.controller('IndexMovieListCtrl', ['$scope', 'Movies',
   function($scope, Movies) {
@@ -10,9 +10,9 @@ phonecatControllers.controller('IndexMovieListCtrl', ['$scope', 'Movies',
     $scope.orderProp = 'name';
   }]);
 
-phonecatControllers.controller('DetailMovieCtrl', ['$scope', '$routeParams', 'Movies',
-  function($scope, $routeParams, Movies) {
-    $scope.movie = Movies.get({movieId: $routeParams.movieId}, function(movie) {
+phonecatControllers.controller('DetailMovieCtrl', ['$scope', '$stateParams', 'Movie',
+  function($scope, $stateParams, Movie) {
+    $scope.movie = Movie.get({movieId: $stateParams.movieId}, function(movie) {
       $scope.mainImageUrl = null;//movie.images[0];
     });
 
