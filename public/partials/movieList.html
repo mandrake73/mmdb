@@ -1,14 +1,22 @@
-<p>There are {{movies.length}} movies</p>
 
-<ul id="movie-list"class="list-inline">
-  <li ng-repeat='movie in movies'>
-    <a ui-sref='movies.detail({movieId: movie.name})'>
-      <h3>{{movie.name}}</h3>
-      <div> {{movie.dateAdded}}</div>
-      <img src='{{movie.img}}' alt='{{movie.name}}'/>
-	</a>
-  </li>
-</ul>
 
-<div ui-view>
+<p class="">There are {{movies.length}} movies</p>
+
+<div class="section-inner">
+<section ng-class="{'list-aside': $state.includes('movies.detail')}" class="list-center">
+		
+		<ul id="movie-list"class="list-inline">
+		  <li ng-repeat='movie in movies'>
+		    <a ui-sref='movies.detail({movieId: movie.name})'>
+		      <h3>{{movie.name}}</h3>
+		      <div> {{movie.dateAdded}}</div>
+		      <img src='{{movie.img}}' alt='{{movie.name}}'/>
+			</a>
+		  </li>
+		</ul>
+</section>
+
+
+<aside ui-view class="aside-container" style="background-color:red;"></aside>
+
 </div>

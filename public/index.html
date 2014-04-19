@@ -21,34 +21,33 @@
 </head>
 <body>
 
-	<div class="site-wrapper">
-		<div class="site-wrapper-inner">
-			<div class="cover-container">
-				<div class="masthead clearfix">
-					<div class="inner">
-						<h3 class="masthead-brand">My Movie DB</h3>
-						<ul class="nav masthead-nav">
-							<li class="active">
-								<a ui-sref="movies">Movies</a>
-							</li>
-							<li>
-								<a ui-sref="tvshows">TV Shows</a>
-							</li>
-						</ul>
-					</div>
+<header>
+	<div class="header-container">
+			<h3 class="">My Movie DB</h3>
+			<nav>
+				<div class="nav-inner">
+				<ul>
+					<li ng-class="{active: $state.includes('movies')}">
+						<a ui-sref="movies">Movies</a>
+					</li>
+					<li ng-class="{active: $state.includes('tvshows')}">
+						<a ui-sref="tvshows">TV Shows</a>
+					</li>
+				</ul>
 				</div>
-			</div>
-			<div class="cover-container">
-				<div class="inner cover">
-					<p class="lead">
-					</p>
-					<div ui-view class="view-container"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+			</nav>
+	<div>
+</header>
 
-  <!-- <div class="view-container"><div ng-view class="view-frame"></div></div> -->
+<div ui-view class="section-container"></div>
+
+
+<div class="clearfix"></div>
+<footer>
+	<div class="footer-container">
+		<a href="./transmission">Torrent</a>
+	</div>
+</footer>
 
 </body>
 </html>

@@ -57,4 +57,6 @@ phonecatApp.config(function($stateProvider, $urlRouterProvider) {
           $scope.things = ["A", "Set", "Of", "Things"];
         }
       })
-    });
+    }).run(function($rootScope, $state) {
+		      $rootScope.$state = $state;
+		    });

@@ -1,78 +1,61 @@
-/*
- * Globals
- */
-
-/* Links */
-a,
-a:focus,
-a:hover {
-  color: #fff;
+html, body {
+	height: 100%;
+	width: 100%;
 }
 
-/* Custom default button */
-.btn-default,
-.btn-default:hover,
-.btn-default:focus {
-  color: #333;
-  text-shadow: none; /* Prevent inheritence from `body` */
-  background-color: #fff;
-  border: 1px solid #fff;
-}
-
-
-/*
- * Base structure
- */
-
-html,
 body {
+	background-color: #333;
+	text-align: center;
+	text-shadow: 0 1px 3px rgba(0,0,0,.5);
+	color: #fff;
+}
+
+header {
+		background-color:#333;
+		width: 100%;
+		height: 80px;
+		position: fixed;
+}
+
+.header-container {
+	height:100%;
+	width: 45%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+header div h3 {
+  float: left;
+}
+
+header div nav {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff; /* IE8 proofing */
+  color: rgba(255,255,255,.75);
+  border-bottom: 2px solid transparent;
+  float: right;
+  display:table;
   height: 100%;
-  background-color: #333;
-}
-body {
-  color: #fff;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  /*box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
 }
 
-/* Extra markup and styles for table-esque vertical and horizontal centering */
-.site-wrapper {
-  display: table;
-  width: 100%;
-  height: 100%; /* For at least Firefox */
-  min-height: 100%;
-}
-.site-wrapper-inner {
-  display: table-cell;
-  vertical-align: top;
-}
-.cover-container {
-  margin-right: auto;
-  margin-left: auto;
+header div nav .nav-inner {
+	display: table-cell;
+	vertical-align: middle;
 }
 
-/* Padding for spacing */
-.inner {
-  padding: 30px;
+nav ul {
 }
 
-
-/*
- * Header
- */
-.masthead-brand {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.masthead-nav > li {
+nav ul > li {
   display: inline-block;
 }
-.masthead-nav > li + li {
+nav ul > li + li {
   margin-left: 20px;
 }
-.masthead-nav > li > a {
+nav ul > li > a {
+  text-decoration: none;
+  padding-bottom: 12px;
   padding-right: 0;
   padding-left: 0;
   font-size: 16px;
@@ -81,86 +64,94 @@ body {
   color: rgba(255,255,255,.75);
   border-bottom: 2px solid transparent;
 }
-.masthead-nav > li > a:hover,
-.masthead-nav > li > a:focus {
+nav ul > li > a:hover,
+nav ul > li > a:focus {
+  color: #fff;
+  text-decoration: none;
   background-color: transparent;
   border-bottom-color: rgba(255,255,255,.25);
 }
-.masthead-nav > .active > a,
-.masthead-nav > .active > a:hover,
-.masthead-nav > .active > a:focus {
+nav ul > .active > a,
+nav ul > .active > a:hover,
+nav ul > .active > a:focus {
   color: #fff;
   border-bottom-color: #fff;
 }
 
-@media (min-width: 768px) {
-  .masthead-brand {
-    float: left;
-  }
-  .masthead-nav {
-    float: right;
-  }
+
+
+.section-container {
+	padding-top: 90px;
+	height: 100%;
+	width: 100%;
+}
+
+.section-inner {
+	height: 100%;
+	width: 100%;
+}
+
+section ul > li > a,
+section ul > li > a:focus,
+section ul > li > a:hover {
+  color: #fff;
+}
+
+section {
+	width:45%;
+}
+
+.list-center {
+	margin:auto;
+}
+
+.list-aside {
+	float: left;
+}
+
+.aside-container {
+	float:left;
+	height: 75%;
+	width: 45%;
+	margin-top: 20px;
+	margin-left: 5%;
+	padding-left:7%;
+	border-left: 1px solid;
+	border-color: #fff;
+	text-align:left;
+	
+	position: fixed;
+	left: 45%;
 }
 
 
-/*
- * Cover
- */
-
-.cover {
-  padding: 70px 20px;
-}
-.cover .btn-lg {
-  padding: 10px 20px;
-  font-weight: bold;
+footer > div > a,
+footer > div > a:focus,
+footer > div > a:hover {
+  color: lightgray;
 }
 
-
-/*
- * Footer
- */
-
-.mastfoot {
-  color: #999; /* IE8 proofing */
-  color: rgba(255,255,255,.5);
+footer {
+	z-index:100;
+	color: lightgray;
+	font-size: smaller;
+	font-style: italic;
+	
+	background-color:#333;
+	width: 100%;
+	height: 6%;
+	position: fixed;
+	bottom:0px;
+	display:table;
 }
 
-
-/*
- * Affix and center
- */
-
-@media (min-width: 768px) {
-  /* Pull out the header and footer */
-  .masthead {
-	background-color: #333;
-    position: fixed;
-    top: 0;
-  }
-  .mastfoot {
-    position: fixed;
-    bottom: 0;
-  }
-  /* Start the vertical centering */
-  .site-wrapper-inner {
-    vertical-align: middle;
-  }
-  /* Handle the widths */
-  .masthead,
-  .mastfoot,
-  .cover-container {
-    width: 100%; /* Must be percentage or pixels for horizontal alignment */
-  }
+.footer-container {
+	height:100%;
+	width: 50%;
+	margin:auto;
+	vertical-align: middle;
+	display:table-cell;
 }
-
-@media (min-width: 992px) {
-  .masthead,
-  .mastfoot,
-  .cover-container {
-    width: 700px;
-  }
-}
-
 
 /*
  *  Media list
