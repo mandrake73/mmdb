@@ -32,7 +32,7 @@ var phonecatApp = angular.module('phonecatApp', [
 phonecatApp.config(function($stateProvider, $urlRouterProvider) {
   //
   // For any unmatched url, redirect to /state1
-  //$urlRouterProvider.otherwise("/movies");
+  $urlRouterProvider.otherwise("/movies");
   //
   // Now set up the states
   $stateProvider
