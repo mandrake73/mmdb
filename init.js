@@ -69,8 +69,16 @@ var fetchFromMovieDB = function (movie, callback) {
 				movie.originalTitle = mdbmv['original_title'];
 				movie.voteAverage = mdbmv['vote_average'];
 				movie.voteCount = mdbmv['vote_count'];
-				console.log(movie);
-				callback(movie);
+				mDB.movieInfo({id: movie.mdbId}, function (err, res) {
+					
+					movie.overview = res['overview'];
+					movie.imdbId = res['imdb_id'];
+					movie.runtime = res['runtime'];
+					
+					console.log(movie);
+					
+					callback(movie);	
+				})
 				return ;
 			}
 		}

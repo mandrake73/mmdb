@@ -124,10 +124,9 @@ section {
 	left: 45%;
 }
 
-
-footer > div > a,
-footer > div > a:focus,
-footer > div > a:hover {
+a,
+a:focus,
+a:hover {
   color: lightgray;
 }
 
@@ -165,4 +164,26 @@ ul.list-inline li img {
 	padding-left: 50px;
 	padding-right: 50px;
 	padding-bottom: 25px;
+}
+
+.detail-header {
+	
+}
+
+.detail-img {
+	float:left;
+}
+
+.detail-title {
+	padding-top: 9%;
+	height: 50%;
+	text-align:center;
+}
+
+.detail-overview {
+	padding-top: 20px;
+}
+
+.detail-url {
+
 }

@@ -1,5 +1,27 @@
 
 <div class="aside-inner">
-  <h3> {{movie.originalName}}</h3>
-  <div> {{movie.mdbId}}</div>
+	<div class="detail-header">
+	<div class="detail-img">
+		<img src='{{movie.img}}' alt='{{movie.name}}'>
+	</div>
+	<div class="detail-title">
+		<h2> {{movie.name}}</h2>
+    	<h3>({{movie.dateRelease}})</h3>
+	</div>
+	</div>
+		
+	<div class="clearfix"></div>
+
+	<div class="detail-overview">
+		<p>Duration : {{movie.runtime}}</p>
+		<p>Summary : </br>
+		{{movie.overview}}
+		</p>
+	</div>
+	
+	<div class="detail-url">
+		TMDB : <a href='{{movie.mdbUrl}}'>{{movie.mdbUrl}}</a>
+		</br>
+		IMDB &nbsp;: <a href='{{movie.imdbUrl}}'>{{movie.imdbUrl}}</a>
+	</div>
 </div>

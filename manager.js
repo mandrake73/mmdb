@@ -9,7 +9,7 @@ var initDb = function () {
 	
 	exports.db.serialize(function() {
 	  	if(!exists) {
-		    exports.db.run("CREATE TABLE Movies (name TEXT, dirPath TEXT, filePath TEXT, dateAdded TEXT, img TEXT, mdbId INTEGER, dateRelease TEXT, originalTitle TEXT, voteAverage REAL, voteCount INTEGER)");
+		    exports.db.run("CREATE TABLE Movies (name TEXT, dirPath TEXT, filePath TEXT, dateAdded TEXT, img TEXT, mdbId INTEGER, dateRelease TEXT, originalTitle TEXT, voteAverage REAL, voteCount INTEGER, overview TEXT, runtime INTEGER, imdbId TEXT)");
 		 }
 	});
 };
@@ -21,15 +21,15 @@ var selectAllMovies = function (eachrowcallback, completecallback) {
 
 var selectMovie = function (name, callback) {
 	exports.db.serialize(function() {
-		exports.db.all("SELECT name FROM Movies WHERE name=?", name, callback);
+		exports.db.all("SELECT * FROM Movies WHERE name=?", name, callback);
 	});
 };
 
 var insertMovie = function (movie) {
 	
-			var stmt = exports.db.prepare("INSERT INTO Movies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			var stmt = exports.db.prepare("INSERT INTO Movies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-			stmt.run(movie.name, movie.dirPath, movie.filePath, movie.dateAdded, movie.img, movie.mdbId, movie.dateRelease, movie.originalTitle, movie.voteAverage, movie.VoteCount);
+			stmt.run(movie.name, movie.dirPath, movie.filePath, movie.dateAdded, movie.img, movie.mdbId, movie.dateRelease, movie.originalTitle, movie.voteAverage, movie.VoteCount, movie.overview, movie.runtime, movie.imdbId);
 
 			stmt.finalize();
 };

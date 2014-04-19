@@ -50,14 +50,25 @@ exports.movies = function (req, res) {
 
 
 exports.movie = function (req, res) {
-  var name = req.params.name;
-  //if (id >= 0 && id < data.posts.length) {
-    res.json(
-      data.posts[0]
-    );
-  /*} else {
-    res.json(false);
-  }*/
+  	var name = req.params.name;
+	manager.selectMovie(name, function (err, row) {
+		var movie = {
+			name: row[0]['name'],
+			dateAdded: row[0]['dateAdded'],
+			img: config.imageBaseUrl + config.mediumPosterSize + row[0]['img'],
+			dateRelease: row[0]['dateRelease'],
+			originalTitle: row[0]['originalTitle'],
+			voteAverage: row[0]['voteAverage'],
+			overview: row[0]['overview'],
+			runtime: row[0]['runtime'],
+			mdbUrl: config.mdbBaseUrl + row[0]['mdbId'],
+			imdbUrl: config.imdbBaseUrl + row[0]['imdbId']
+		};
+		
+		res.json(
+	      movie
+	    );
+	});
 };
 
 // POST
