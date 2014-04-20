@@ -166,6 +166,10 @@ ul.list-inline li img {
 	padding-bottom: 25px;
 }
 
+.detail-aside {
+	display : none;
+}
+
 .detail-header {
 	
 }

@@ -34,8 +34,8 @@ var walk = function(dir, videoType, done) {
 			//console.log(mv);
 			//console.log('dir : ' + dir);
 			//	console.log('file : ' + file);
-		  if (mv.filePath.match(/[^.]((.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$))/gi) != null) {
-			console.log(mv.filePath + 'match !!');
+		  if (mv.filePath.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)/gi) != null && mv.filePath.indexOf("/.") == -1) {
+			console.log(mv.filePath + ' match !!');
 			manager.selectMovie(mv.name, function (err, rows) {
 				if (rows == null || rows.length == 0) {
 					fetchFromMovieDB(mv, function (fullMovie) {
@@ -47,6 +47,9 @@ var walk = function(dir, videoType, done) {
 					console.log("Movie " + mv.name + " already exist in DB");
 				}
 			});
+		  }
+		  else {
+			console.log(mv.filePath + ' don\'t match!!');
 		  }
           next();
         }
