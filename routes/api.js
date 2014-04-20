@@ -56,11 +56,11 @@ exports.movie = function (req, res) {
 			name: row[0]['name'],
 			dateAdded: row[0]['dateAdded'],
 			img: config.imageBaseUrl + config.mediumPosterSize + row[0]['img'],
-			dateRelease: row[0]['dateRelease'],
+			dateRelease: new Date(row[0]['dateRelease']).getFullYear();,
 			originalTitle: row[0]['originalTitle'],
 			voteAverage: row[0]['voteAverage'],
 			overview: row[0]['overview'],
-			runtime: row[0]['runtime'],
+			runtime: Math.floor(row[0]['runtime'] / 60) + ':' Math.floor(row[0]['runtime'] % 60),
 			mdbUrl: config.mdbBaseUrl + row[0]['mdbId'],
 			imdbUrl: config.imdbBaseUrl + row[0]['imdbId']
 		};
