@@ -2,6 +2,7 @@
 var file = require('file');
 var manager = require('../manager');
 var config = require('../config');
+var tools = require('../tools')
 
 /*
  * Serve JSON to our AngularJS client
@@ -56,11 +57,11 @@ exports.movie = function (req, res) {
 			name: row[0]['name'],
 			dateAdded: row[0]['dateAdded'],
 			img: config.imageBaseUrl + config.mediumPosterSize + row[0]['img'],
-			dateRelease: new Date(row[0]['dateRelease']).getFullYear();,
+			dateRelease: new Date(row[0]['dateRelease']).getFullYear(),
 			originalTitle: row[0]['originalTitle'],
 			voteAverage: row[0]['voteAverage'],
 			overview: row[0]['overview'],
-			runtime: Math.floor(row[0]['runtime'] / 60) + ':' Math.floor(row[0]['runtime'] % 60),
+			runtime: Math.floor(row[0]['runtime'] / 60) + 'h' + tools.zeroPadNumber(Math.floor(row[0]['runtime'] % 60), 2),
 			mdbUrl: config.mdbBaseUrl + row[0]['mdbId'],
 			imdbUrl: config.imdbBaseUrl + row[0]['imdbId']
 		};
