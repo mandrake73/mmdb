@@ -49,7 +49,6 @@ exports.movies = function (req, res) {
 		
 };
 
-
 exports.movie = function (req, res) {
   	var name = req.params.name;
 	manager.selectMovie(name, function (err, row) {
@@ -63,7 +62,8 @@ exports.movie = function (req, res) {
 			overview: row[0]['overview'],
 			runtime: Math.floor(row[0]['runtime'] / 60) + 'h' + tools.zeroPadNumber(Math.floor(row[0]['runtime'] % 60), 2),
 			mdbUrl: config.mdbBaseUrl + row[0]['mdbId'],
-			imdbUrl: config.imdbBaseUrl + row[0]['imdbId']
+			imdbUrl: config.imdbBaseUrl + row[0]['imdbId'],
+			downloadUrl: row[0]['filePath'].replace(config.moviesPath, './Movies')
 		};
 		
 		res.json(
