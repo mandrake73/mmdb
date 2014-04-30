@@ -12,23 +12,6 @@ var phonecatApp = angular.module('phonecatApp', [
   'phonecatServices'
 ]);
 
-/*phonecatApp.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/movies', {
-        templateUrl: 'partials/movieList.html',
-        controller: 'IndexMovieListCtrl'
-      }).
-      when('/movies/:movieId', {
-        templateUrl: 'partials/movieDetail.html',
-        controller: 'DetailMovieCtrl'
-      }).
-      otherwise({
-        redirectTo: 'movies'
-      });
-  }]);
-*/
-
 phonecatApp.config(function($stateProvider, $urlRouterProvider) {
   //
   // For any unmatched url, redirect to /state1
@@ -48,15 +31,14 @@ phonecatApp.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('tvshows', {
       url: "/tvshows",
-      templateUrl: "partials/state2.html"
+      templateUrl: "partials/tvshowList.html",
+	  controller: 'IndexTVShowListCtrl'
     })
     .state('tvshows.detail', {
-      url: "/tvshows/",
-        templateUrl: "partials/state2.list.html",
-        controller: function($scope) {
-          $scope.things = ["A", "Set", "Of", "Things"];
-        }
-      })
+      url: "/:tvshowId",
+      templateUrl: "partials/tvshowDetail.html",
+      controller: 'DetailTVShowCtrl'
+    })
     }).run(function($rootScope, $state) {
 		      $rootScope.$state = $state;
 		    });

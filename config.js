@@ -1,6 +1,8 @@
 
 
 exports.dbName = "mmdb.db";
+
+
 exports.moviesPath = '/tmp/Videos/Movies';
 exports.seriesPath = "/tmp/Videos/Series";
 

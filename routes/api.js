@@ -72,6 +72,28 @@ exports.movie = function (req, res) {
 	});
 };
 
+exports.tvshows = function (req, res) {
+  var movies = [];
+  
+	manager.selectAllTVShows(function (err, row) {
+		if (row != null) {
+			movies.push({
+	      		name: row['name'],
+	      		url: row['url'],
+	      		date: row['dateAdded'],
+				img: config.imageBaseUrl + config.posterSize + row['img'],
+	    	});
+		}
+	},
+	function (err, count) {
+		res.json(
+    		movies
+  		);
+	});
+		
+};
+
+
 // POST
 
 exports.addPost = function (req, res) {

@@ -20,3 +20,21 @@ phonecatControllers.controller('DetailMovieCtrl', ['$scope', '$stateParams', 'Mo
       $scope.mainImageUrl = imageUrl;
     }*/
   }]);
+
+
+phonecatControllers.controller('IndexTVShowListCtrl', ['$scope', 'TVShows',
+  function($scope, TVShows) {
+    $scope.tvshows = TVShows.query();
+    $scope.orderProp = 'name';
+  }]);
+
+phonecatControllers.controller('DetailTVShowCtrl', ['$scope', '$stateParams', 'TVShow',
+  function($scope, $stateParams, Movie) {
+    $scope.tvshow = TVShow.get({movieId: $stateParams.tvshowId}, function(tvshow) {
+      $scope.mainImageUrl = null;//movie.images[0];
+    });
+
+    /*$scope.setImage = function(imageUrl) {
+      $scope.mainImageUrl = imageUrl;
+    }*/
+  }]);

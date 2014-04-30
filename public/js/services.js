@@ -18,3 +18,19 @@ phonecatServices.factory('Movie', ['$resource',
       query: {method:'GET', params:{}, isArray:true}
     });
   }]);
+
+
+phonecatServices.factory('TVShows', ['$resource',
+  function($resource){
+    return $resource('/api/tvshows', {}, {
+      query: {method:'GET', params:{}, isArray:true}
+    });
+  }]);
+
+
+phonecatServices.factory('TVShow', ['$resource',
+  function($resource){
+    return $resource('/api/tvshows/:tvshowId', {}, {
+      query: {method:'GET', params:{}, isArray:true}
+    });
+  }]);

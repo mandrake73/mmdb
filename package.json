@@ -28,8 +28,11 @@
     "error-handler": "^0.1.4",
     "file": "^0.2.2",
     "sqlite3": "^2.2.1",
-    "moviedb": "^0.1.2",
+    "moviedb": "https://github.com/mandrake73/moviedb/archive/0.1.3.tar.gz",
     "consolidate": "^0.10.0",
-    "hogan.js": "^2.0.0"
+    "hogan.js": "^2.0.0",
+    "wait.for": "^0.6.4",
+    "fibers": "^1.0.1",
+    "async": "^0.7.0"
   }
 }

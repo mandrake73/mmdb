@@ -11,7 +11,8 @@ var express = require('express'),
   methodOverride = require('method-override'),
   errorHandler = require('errorHandler'),
   http = require('http'),
-  engines = require('consolidate');;
+  engines = require('consolidate'),
+  wait = require('wait.for');
 
 var app = module.exports = express();
 
@@ -39,6 +40,7 @@ app.get('/partials/:name', routes.partials);
 // JSON API
 
 app.get('/api/movies', api.movies);
+app.get('/api/tvshows', api.tvshows);
 
 app.get('/api/movies/:name', api.movie);
 app.post('/api/post', api.addPost);
@@ -48,11 +50,14 @@ app.delete('/api/post/:id', api.deletePost);
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 
-console.log('Start init db');
-init.initAll();
-console.log('End init db');
+
 // Start server
 
 var server = http.createServer(app).listen(3000, function(){
+	console.log('Start init db');
+	wait.launchFiber(function () {
+		init.initAll();
+	});
+	console.log('End init db');
   console.log("Express server listening on port %d in %s mode", server.address().port, app.settings.env);
 });
