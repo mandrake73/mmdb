@@ -10,7 +10,7 @@ var config = require("./config");
 var walk = function(root, dir, videoType, done) {
   var results = [];
 
-  	if (root.charAt(0) != '/')
+  	if (root.charAt(root.length - 1) != '/')
 	{
 		root = root + '/'
 	}
@@ -52,7 +52,14 @@ var eachMovieCallBack = function (data, callback) {
 	var mv = new model.Movie();
 	mv.name = data.dirPath.replace(data.rootPath, '');
 	mv.name = mv.name.split('/');
-	mv.name = mv.name[1];
+
+	if (mv.name.length > 1) {
+		mv.name = mv.name[1];
+	}
+	else {
+		mv.name = mv.name[0];
+	}
+	
 	mv.dirPath = data.dirPath;
 	mv.filePath = data.filePath;
 	mv.type = 'movie';
@@ -76,6 +83,7 @@ var eachMovieCallBack = function (data, callback) {
 		}
 		else {
 			console.log("Movie " + mv.name + " already exist in DB" + "\n");
+			callback();
 		}
 	});
 }
@@ -173,13 +181,19 @@ var eachTVShowCallBack = function (data, callback) {
 	      statInfo: [Object] }
 	*/
 	//console.log(data);
-	console.log("dir: " + data.dirPath + " - file: " + data.filePath);
+	console.log("dir: " + data.dirPath + " - file: " + data.filePath + " - root:" + data.rootPath);
 	var mv = new model.TVShow();
 	mv.name = data.dirPath.replace(data.rootPath, '');
 		//console.log("1: " + mv.name);
 	mv.name = mv.name.split('/');
 		//console.log("2: " + mv.name);
-	mv.name = mv.name[1];
+	
+	if (mv.name.length > 1) {
+		mv.name = mv.name[1];
+	}
+	else {
+		mv.name = mv.name[0];
+	}
 		//console.log("3: " + mv.name);
 	mv.dirPath = data.dirPath;
 	mv.filePath = data.filePath;
@@ -214,6 +228,7 @@ var eachTVShowCallBack = function (data, callback) {
 							else {
 								console.log(mv.name + " inserted into DB\n");
 								manager.selectTVShow(mv.name, function (err, rows) {
+									console.log(rows);
 									if (err) {
 										throw err;
 									}
@@ -340,7 +355,7 @@ var init = function() {
 		});
 		
 		//Scan TVSHOWS	
-		async.series([
+		/*async.series([
 			function (callback) {		
 				walk(config.seriesPath, config.seriesPath, 'tvshow', callback);
 			},
@@ -366,7 +381,7 @@ var init = function() {
 					}
 				});
 			}
-		});
+		});*/
 	});
 };
 

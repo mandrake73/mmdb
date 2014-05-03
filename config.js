@@ -3,8 +3,8 @@
 exports.dbName = "mmdb.db";
 
 
-exports.moviesPath = '/tmp/Videos/Movies';
-exports.seriesPath = "/tmp/Videos/Series";
+exports.moviesPath = 'D:/ADP/dev_perso/tmp/Movies';
+exports.seriesPath = "D:/ADP/dev_perso/tmp/Series";
 
 
 exports.imageBaseUrl = 'http://image.tmdb.org/t/p/';

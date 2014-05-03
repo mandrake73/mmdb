@@ -9,7 +9,7 @@ var express = require('express'),
   init = require('./init'),
   bodyParser = require('body-parser'),
   methodOverride = require('method-override'),
-  errorHandler = require('errorHandler'),
+ // errorHandler = require('error-handler'),
   http = require('http'),
   engines = require('consolidate'),
   wait = require('wait.for');
@@ -25,12 +25,12 @@ var app = module.exports = express();
 
 
 var env = process.env.NODE_ENV || 'development';
-if ('development' == env) {
+/*if ('development' == env) {
   app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 }
 else {
   app.use(errorHandler());	
-}
+}*/
 
 // Routes
 
