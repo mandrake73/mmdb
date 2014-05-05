@@ -42,7 +42,7 @@ var insertMovie = function (movie, callback) {
 
 var selectTVShow = function (name, callback) {
 	exports.db.serialize(function() {
-		exports.db.all("SELECT show.id, show.name, show.dirPath, show.dateAdded, show.img, show.mdbId, show.dateRelease, show.overview, show.imdbId, e.filePath, e.episodeNumber, se.seasonNumber FROM TVShows show JOIN TVShowEpisodes e ON show.id = e.tvshowId JOIN TVShowSeasons se ON show.id = se.tvshowId AND e.seasonId = se.id WHERE show.name=?", name, callback);
+		exports.db.all("SELECT show.id, show.name, show.dirPath, show.dateAdded, show.img, show.mdbId, show.dateRelease, show.overview, show.imdbId, e.filePath, e.episodeNumber, se.seasonNumber FROM TVShows show LEFT JOIN TVShowEpisodes e ON show.id = e.tvshowId LEFT JOIN TVShowSeasons se ON show.id = se.tvshowId AND e.seasonId = se.id WHERE show.name=?", name, callback);
 	});
 };
 

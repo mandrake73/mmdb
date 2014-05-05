@@ -355,7 +355,7 @@ var init = function() {
 		});
 		
 		//Scan TVSHOWS	
-		/*async.series([
+		async.series([
 			function (callback) {		
 				walk(config.seriesPath, config.seriesPath, 'tvshow', callback);
 			},
@@ -381,7 +381,7 @@ var init = function() {
 					}
 				});
 			}
-		});*/
+		});
 	});
 };
 
