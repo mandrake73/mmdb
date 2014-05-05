@@ -122,6 +122,8 @@ section {
 	
 	position: fixed;
 	left: 45%;
+
+	overflow: auto;
 }
 
 a,

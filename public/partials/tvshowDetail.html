@@ -1,3 +1,37 @@
-<h3>TV SHOW DETAIL</h3>
-<h3> {{movie.originalName}}</h3>
-<div> {{movie.mdbId}}</div>
+
+<div class="aside-inner">
+	<div class="detail-header">
+	<div class="detail-img">
+		<img src='{{tvshow.img}}' alt='{{tvshow.name}}'>
+	</div>
+	<div class="detail-title">
+		<h2> {{tvshow.name}}</h2>
+    	<h3>({{tvshow.dateRelease}})</h3>
+	</div>
+	</div>
+		
+	<div class="clearfix"></div>
+
+	<div class="detail-overview">
+		<!--<p>Duration : {{tvshow.runtime}}</p>-->
+		<p>Summary : </br>
+		{{tvshow.overview}}
+		</p>
+	</div>
+	
+	<div class="detail-url">
+		TMDB : <a href='{{tvshow.mdbUrl}}'>{{tvshow.mdbUrl}}</a>
+		</br>
+		IMDB &nbsp;: <a href='{{tvshow.imdbUrl}}'>{{tvshow.imdbUrl}}</a>
+	</div>
+	
+	<div class="detail-download">
+		<ul id=""class="list-unstyled">
+		  <li ng-repeat='url in tvshow.downloadUrl'>
+		    <a href='{{url.url}}'>
+		    	<h4>Download Saison {{url.season}} Episode {{url.episode}}</h4>
+			</a>
+		  </li>
+		</ul>
+	</div>
+</div>

@@ -29,8 +29,8 @@ phonecatControllers.controller('IndexTVShowListCtrl', ['$scope', 'TVShows',
   }]);
 
 phonecatControllers.controller('DetailTVShowCtrl', ['$scope', '$stateParams', 'TVShow',
-  function($scope, $stateParams, Movie) {
-    $scope.tvshow = TVShow.get({movieId: $stateParams.tvshowId}, function(tvshow) {
+  function($scope, $stateParams, TVShow) {
+    $scope.tvshow = TVShow.get({tvshowId: $stateParams.tvshowId}, function(tvshow) {
       $scope.mainImageUrl = null;//movie.images[0];
     });
 

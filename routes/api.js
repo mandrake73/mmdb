@@ -93,6 +93,40 @@ exports.tvshows = function (req, res) {
 		
 };
 
+exports.tvshow = function (req, res) {
+  	var name = req.params.name;
+	manager.selectTVShow(name, function (err, row) {
+		console.log(row);
+		var show = {
+			name: row[0]['name'],
+			dateAdded: row[0]['dateAdded'],
+			img: config.imageBaseUrl + config.mediumPosterSize + row[0]['img'],
+			dateRelease: new Date(row[0]['dateRelease']).getFullYear(),
+			originalTitle: row[0]['originalTitle'],
+			voteAverage: row[0]['voteAverage'],
+			overview: row[0]['overview'],
+			runtime: Math.floor(row[0]['runtime'] / 60) + 'h' + tools.zeroPadNumber(Math.floor(row[0]['runtime'] % 60), 2),
+			mdbUrl: config.mdbBaseUrl + row[0]['mdbId'],
+			imdbUrl: config.imdbBaseUrl + row[0]['imdbId'],
+			downloadUrl: new Array()
+		};
+		
+		for(var i = 0; i < row.length; i++)
+		{
+			if (row[i]['filePath'] != null)
+			{
+				show.downloadUrl.push({ url:row[i]['filePath'].replace(config.seriesPath, './Series'),
+										episode: row[i]['episodeNumber'], 
+										season: row[i]['seasonNumber']});
+			}
+		}
+
+		res.json(
+	      show
+	    );
+	});
+};
+
 
 // POST
 

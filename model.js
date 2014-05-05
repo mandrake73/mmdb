@@ -42,6 +42,8 @@ function TVShow () {
 	
 	this.seasonNumber = '';
 	this.episodeNumber = '';
+
+	this.seasonId = '';
 	
 }
 

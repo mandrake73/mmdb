@@ -43,6 +43,8 @@ app.get('/api/movies', api.movies);
 app.get('/api/tvshows', api.tvshows);
 
 app.get('/api/movies/:name', api.movie);
+app.get('/api/tvshows/:name', api.tvshow);
+
 app.post('/api/post', api.addPost);
 app.put('/api/post/:id', api.editPost);
 app.delete('/api/post/:id', api.deletePost);

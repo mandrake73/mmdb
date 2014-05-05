@@ -23,8 +23,8 @@ var walk = function(root, dir, videoType, done) {
       if (!file) return done(null, results);
       file = dir + '/' + file;
 
-      fs.stat(file, function(err, stat) {
-        if (stat && stat.isDirectory()) {
+      fs.lstat(file, function(err, stat) {
+        if (stat && stat.isDirectory() && !stat.isSymbolicLink()) {
           walk(root, file, videoType, function(err, res) {
             results = results.concat(res);
             next();
@@ -202,9 +202,21 @@ var eachTVShowCallBack = function (data, callback) {
 		//console.log(mv.filePath + ' match !!');
 	
 	/*fetchFromTVDB(mv, function (fullTVShow) {
-		
 	console.log("\n");	
-	});*/
+	});*/	
+	var seasonInfo = extractSeasonEpisodeFromTitle(mv.filePath);
+	if (seasonInfo == null)
+	{
+		console.log("Can't extract episode season info from " + mv.name + "(file=" + mv.filePath + ")");
+		callback();
+		return ;
+	}
+	
+	mv.seasonNumber = seasonInfo.season;
+	mv.episodeNumber = seasonInfo.episode;			
+	
+
+	
 	var fullShow;
 	var selectedRow;
 	async.series([
@@ -237,6 +249,7 @@ var eachTVShowCallBack = function (data, callback) {
 									}
 									else {
 										selectedRow = rows[0];
+										mv.id = selectedRow['id'];
 										callback();
 									}
 								});
@@ -255,6 +268,7 @@ var eachTVShowCallBack = function (data, callback) {
 						}
 						else {
 							selectedRow = rows[0];
+							mv.id = selectedRow['id'];
 							callback();
 						}
 					});
@@ -263,16 +277,71 @@ var eachTVShowCallBack = function (data, callback) {
 		},
 		function (callback) {
 			console.log("checking season");
-			var seasonInfo = extractSeasonEpisodeFromTitle(mv.filePath);
-			if (seasonInfo != null)
-			{
-				
-			}
-			callback();
+			manager.selectTVShowSeason(mv.id, mv.seasonNumber, function (err, rows) {
+				if (err) {
+					throw err;
+				}
+				if (rows == null || rows.length == 0) {
+					manager.insertTVShowSeason(mv, function (err) {
+							if (err) {
+								throw err;
+							}
+							manager.selectTVShowSeason(mv.id, mv.seasonNumber, function (err, rows) {
+								if (err) {
+									throw err;
+								}
+								if (rows == null || rows.length == 0) {
+									throw new Error('Show Season' + mv.name + " don't exist in DB just after insertion" + "\n");
+								}
+								selectedRow = rows[0];
+								mv.seasonId = selectedRow['id'];
+								callback();	
+							});
+					});
+				}
+				else
+				{
+					console.log('Show Season' + mv.name + " already exist in DB" + "\n");
+					selectedRow = rows[0];
+					mv.seasonId = selectedRow['id'];
+					callback();		
+				}
+
+			});
 		},
 		function (callback) {
 			console.log("checking episode");
-			callback();
+			manager.selectTVShowEpisode(mv.id, mv.seasonId, mv.episodeNumber, function (err, rows) {
+				if (err) {
+					throw err;
+				}
+				if (rows == null || rows.length == 0) {
+					manager.insertTVShowEpisode(mv, function (err) {
+							if (err) {
+								throw err;
+							}
+							manager.selectTVShowEpisode(mv.id, mv.seasonId, mv.episodeNumber, function (err, rows) {
+								if (err) {
+									throw err;
+								}
+								if (rows == null || rows.length == 0) {
+									throw new Error('Show Episode' + mv.name + " don't exist in DB just after insertion" + "\n");
+								}
+								selectedRow = rows[0];
+								mv.filePath = selectedRow['filePath'];
+								callback();	
+							});
+					});
+				}
+				else
+				{
+					console.log('Show Episode' + mv.name + " already exist in DB" + "\n");
+					selectedRow = rows[0];
+					mv.filePath = selectedRow['filePath'];
+					callback();		
+				}
+
+			});
 		}
 	],
 	function (err, res) {
@@ -283,7 +352,9 @@ var eachTVShowCallBack = function (data, callback) {
 			callback();
 		}
 	});
-	
+
+}
+
 var extractSeasonEpisodeFromTitle = function (title) {
 	var res = title.match(/[s|S]?(\d{1,2})[e|E|x|X](\d{1,2})/);
 	
@@ -297,7 +368,6 @@ var extractSeasonEpisodeFromTitle = function (title) {
 		return null;
 	}
 
-}
 /*	manager.selectTVShow(mv.name, function (err, rows) {
 		if (rows == null || rows.length == 0) {
 			fetchFromTVDB(mv, function (fullMovie) {
