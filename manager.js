@@ -12,7 +12,7 @@ var initDb = function () {
 		    exports.db.run("CREATE TABLE Movies (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, dirPath TEXT, filePath TEXT, dateAdded TEXT, img TEXT, mdbId INTEGER, dateRelease TEXT, originalTitle TEXT, voteAverage REAL, voteCount INTEGER, overview TEXT, runtime INTEGER, imdbId TEXT)");
 			exports.db.run("CREATE TABLE TVShows (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, dirPath TEXT, dateAdded TEXT, img TEXT, mdbId INTEGER, dateRelease TEXT, originalTitle TEXT, voteAverage REAL, voteCount INTEGER, overview TEXT, imdbId TEXT, tvrageId TEXT, tvdbId TEXT, numberOfSeasons INTEGER, numberOfEpisodes INTEGER, status TEXT)");
 			exports.db.run("CREATE TABLE TVShowSeasons (id INTEGER PRIMARY KEY AUTOINCREMENT, tvshowId INTEGER, seasonNumber INTEGER, numberOfEpisodes INTEGER, overview TEXT, dateRelease TEXT, img TEXT, mdbId INTEGER, imdbId TEXT, tvrageId TEXT, tvdbId TEXT)");
-			exports.db.run("CREATE TABLE TVShowEpisodes (id INTEGER PRIMARY KEY AUTOINCREMENT, tvshowId INTEGER, seasonId INTEGER, episodeNumber INTEGER, filePath TEXT, name TEXT, overview TEXT, dateRelease TEXT, img TEXT, mdbId INTEGER, imdbId TEXT, tvrageId TEXT, tvdbId TEXT)");
+			exports.db.run("CREATE TABLE TVShowEpisodes (id INTEGER PRIMARY KEY AUTOINCREMENT, tvshowId INTEGER, seasonId INTEGER, episodeNumber INTEGER, filePath TEXT, subtitlePath TEXT, name TEXT, overview TEXT, dateRelease TEXT, img TEXT, mdbId INTEGER, imdbId TEXT, tvrageId TEXT, tvdbId TEXT)");
 		 }
 	});
 };
@@ -42,7 +42,7 @@ var insertMovie = function (movie, callback) {
 
 var selectTVShow = function (name, callback) {
 	exports.db.serialize(function() {
-		exports.db.all("SELECT show.id, show.name, show.dirPath, show.dateAdded, show.img, show.mdbId, show.dateRelease, show.overview, show.imdbId, e.filePath, e.episodeNumber, se.seasonNumber FROM TVShows show LEFT JOIN TVShowEpisodes e ON show.id = e.tvshowId LEFT JOIN TVShowSeasons se ON show.id = se.tvshowId AND e.seasonId = se.id WHERE show.name=?", name, callback);
+		exports.db.all("SELECT show.id, show.name, show.dirPath, show.dateAdded, show.img, show.mdbId, show.dateRelease, show.overview, show.imdbId, e.filePath, e.subtitlePath, e.episodeNumber, se.seasonNumber FROM TVShows show LEFT JOIN TVShowEpisodes e ON show.id = e.tvshowId LEFT JOIN TVShowSeasons se ON show.id = se.tvshowId AND e.seasonId = se.id WHERE show.name=?", name, callback);
 	});
 };
 
@@ -75,9 +75,9 @@ var insertTVShowSeason = function (tvshow, callback) {
 };
 
 var insertTVShowEpisode = function (tvshow, callback) {
-			var stmt = exports.db.prepare("INSERT INTO TVShowEpisodes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			var stmt = exports.db.prepare("INSERT INTO TVShowEpisodes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-			stmt.run(null, tvshow.id, tvshow.seasonId, tvshow.episodeNumber, tvshow.filePath, null, null, null, null, null, null, null, null, callback);
+			stmt.run(null, tvshow.id, tvshow.seasonId, tvshow.episodeNumber, tvshow.filePath, tvshow.subtitlePath, null, null, null, null, null, null, null, null, callback);
 
 			stmt.finalize();
 };

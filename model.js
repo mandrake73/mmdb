@@ -22,7 +22,10 @@ function TVShow () {
     this.id = '';
     this.name = '';
 	this.dirPath = '';
+	
 	this.filePath = '';
+	this.subtitlePath = '';
+
 	this.url = '';
 	this.dateAdded = '';
 	this.img = '';
@@ -44,7 +47,6 @@ function TVShow () {
 	this.episodeNumber = '';
 
 	this.seasonId = '';
-	
 }
 
 exports.Movie = Movie;

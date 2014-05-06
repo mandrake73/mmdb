@@ -26,12 +26,21 @@
 	</div>
 	
 	<div class="detail-download">
-		<ul id=""class="list-unstyled">
-		  <li ng-repeat='url in tvshow.downloadUrl'>
-		    <a href='{{url.url}}'>
-		    	<h4>Download Saison {{url.season}} Episode {{url.episode}}</h4>
-			</a>
-		  </li>
-		</ul>
+		<h4>Download :</h4>
+		<ul class="css-treeview list-unstyled">
+			<li ng-repeat='(key, url) in tvshow.downloadUrl'>
+				<input type="checkbox" class="expander" unchecked>
+				<span class="expander"></span>
+				<label>Season {{key.replace('s', '')}}</label>
+			
+				<ul class="css-treeview">
+		            <li ng-repeat='u in url'>
+		                <input type="checkbox" class="expander" disabled>
+		                <span class="expander"></span>
+		                <a href='{{u.url}}'>Episode {{u.episode}}</a><span ng-show="u.subtitle">  -  <a href='{{u.subtitle}}'>Subtitle</a></span>
+		            </li>
+		        </ul>
+	        </li>
+	    </ul>
 	</div>
 </div>

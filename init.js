@@ -181,6 +181,11 @@ var eachTVShowCallBack = function (data, callback) {
 	      statInfo: [Object] }
 	*/
 	//console.log(data);
+	if (data == null)
+	{
+		callback();
+		return ;
+	}
 	console.log("dir: " + data.dirPath + " - file: " + data.filePath + " - root:" + data.rootPath);
 	var mv = new model.TVShow();
 	mv.name = data.dirPath.replace(data.rootPath, '');
@@ -215,6 +220,19 @@ var eachTVShowCallBack = function (data, callback) {
 	mv.seasonNumber = seasonInfo.season;
 	mv.episodeNumber = seasonInfo.episode;			
 	
+
+	//Check if subtitle exist
+	var pathNoExt = mv.filePath.substring(0, mv.filePath.lastIndexOf('.'));
+
+	if (fs.existsSync(pathNoExt + '.srt')) {
+    	mv.subtitlePath = pathNoExt + '.srt';
+	}
+	else if (fs.existsSync(pathNoExt + '.en.srt')) {
+    	mv.subtitlePath = pathNoExt + '.en.srt';
+	}
+	else if (fs.existsSync(pathNoExt + '.fr.srt')) {
+    	mv.subtitlePath = pathNoExt + '.fr.srt';
+	}
 
 	
 	var fullShow;

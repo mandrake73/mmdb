@@ -96,7 +96,7 @@ exports.tvshows = function (req, res) {
 exports.tvshow = function (req, res) {
   	var name = req.params.name;
 	manager.selectTVShow(name, function (err, row) {
-		console.log(row);
+		//console.log(row);
 		var show = {
 			name: row[0]['name'],
 			dateAdded: row[0]['dateAdded'],
@@ -108,18 +108,28 @@ exports.tvshow = function (req, res) {
 			runtime: Math.floor(row[0]['runtime'] / 60) + 'h' + tools.zeroPadNumber(Math.floor(row[0]['runtime'] % 60), 2),
 			mdbUrl: config.mdbBaseUrl + row[0]['mdbId'],
 			imdbUrl: config.imdbBaseUrl + row[0]['imdbId'],
-			downloadUrl: new Array()
+			downloadUrl: {}
 		};
 		
 		for(var i = 0; i < row.length; i++)
 		{
 			if (row[i]['filePath'] != null)
 			{
-				show.downloadUrl.push({ url:row[i]['filePath'].replace(config.seriesPath, './Series'),
+				var season = "s" + row[i]['seasonNumber'].toString();
+				var infos = { url:row[i]['filePath'].replace(config.seriesPath, './Series'),
+										season: row[i]['seasonNumber'],
 										episode: row[i]['episodeNumber'], 
-										season: row[i]['seasonNumber']});
+										subtitle: row[i]['subtitlePath'].replace(config.seriesPath, './Series')};
+
+				if (show.downloadUrl[season] == null) {
+					show.downloadUrl[season] = new Array();
+				}
+
+				show.downloadUrl[season].push(infos);
 			}
 		}
+
+		console.log(show.downloadUrl);
 
 		res.json(
 	      show
