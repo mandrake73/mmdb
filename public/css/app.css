@@ -158,8 +158,8 @@ footer {
  *  Media list
  */
 
-ul.list-inline li h3{
-	max-width: 150px;
+ul.list-inline li h4{
+	max-width: 190px;
 }
 
 ul.list-inline li img {
