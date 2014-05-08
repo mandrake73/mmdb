@@ -8,9 +8,8 @@
 		<ul id="movie-list"class="list-inline">
 		  <li ng-repeat='show in tvshows'>
 		    <a ui-sref='tvshows.detail({tvshowId: show.name})'>
-		      <h3>{{show.name}}</h3>
-		      <div> {{show.dateAdded}}</div>
-		      <img src='{{show.img}}' alt='{{show.name}}'/>
+		      	<img src='{{show.img}}' alt='{{show.name}}'/>
+		      	<h4>{{show.name}}</h4>
 			</a>
 		  </li>
 		</ul>
