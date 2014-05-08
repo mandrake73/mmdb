@@ -96,7 +96,7 @@ exports.tvshows = function (req, res) {
 exports.tvshow = function (req, res) {
   	var name = req.params.name;
 	manager.selectTVShow(name, function (err, row) {
-		//console.log(row);
+		console.log(row);
 		var show = {
 			name: row[0]['name'],
 			dateAdded: row[0]['dateAdded'],
@@ -128,8 +128,6 @@ exports.tvshow = function (req, res) {
 				show.downloadUrl[season].push(infos);
 			}
 		}
-
-		console.log(show.downloadUrl);
 
 		res.json(
 	      show

@@ -183,7 +183,11 @@ ul.list-inline li img {
 .detail-title {
 	padding-top: 9%;
 	height: 50%;
+	width: 70%;
+	margin: auto;
 	text-align:center;
+
+	float:left;
 }
 
 .detail-overview {
@@ -197,3 +201,38 @@ ul.list-inline li img {
 .detail-download {
 	padding-top: 10px;
 }
+
+
+.rate {
+	height: 30px;
+	width: 100%;
+
+	position: relative;
+}
+
+.rate-back {
+	background-image: url('../img/rate.png');
+	background-repeat:repeat-x;
+	opacity:0.2;
+
+	margin: auto;
+	height: 100%;
+	width: 200px;
+}
+
+.rate-front {
+	height: 100%;
+	width: 0px;
+
+	background-image: url('../img/rate.png');
+	background-repeat:repeat-x;
+
+	position: absolute;
+	top: 0px;
+	left: 91px;
+}
+
+
+
+
+
