@@ -5,9 +5,36 @@
 var phonecatControllers = angular.module('phonecatControllers', ['ui.router']);
 
 phonecatControllers.controller('IndexMovieListCtrl', ['$scope', 'Movies',
+
   function($scope, Movies) {
-    $scope.movies = Movies.query();
+
+    $scope.sort = function(item) {
+   /*if (  $scope.orderProp == 'date') {
+        return new Date(item.date);
+    }*/
+    return item[$scope.orderProp];
+  }
+
+   $scope.orderProp='dateAdded';
+
+    $scope.tab = function (tabIndex) {
+
+     //Sort by date
+      if (tabIndex == 0){
+        //alert(tabIndex);
+        $scope.orderProp='name';
+
+      }   
+      //Sort by views 
+      if (tabIndex == 1){
+        $scope.orderProp = 'dateAdded';
+      }
+
+   };
+
     $scope.orderProp = 'name';
+    $scope.movies = Movies.query();
+    
   }]);
 
 phonecatControllers.controller('DetailMovieCtrl', ['$scope', '$stateParams', 'Movie',
@@ -24,8 +51,36 @@ phonecatControllers.controller('DetailMovieCtrl', ['$scope', '$stateParams', 'Mo
 
 phonecatControllers.controller('IndexTVShowListCtrl', ['$scope', 'TVShows',
   function($scope, TVShows) {
-    $scope.tvshows = TVShows.query();
+
+
+    $scope.sort = function(item) {
+   /*if (  $scope.orderProp == 'date') {
+        return new Date(item.date);
+    }*/
+    return item[$scope.orderProp];
+  }
+
+   $scope.orderProp='dateAdded';
+
+    $scope.tab = function (tabIndex) {
+
+     //Sort by date
+      if (tabIndex == 0){
+        //alert(tabIndex);
+        $scope.orderProp='name';
+
+      }   
+      //Sort by views 
+      if (tabIndex == 1){
+        $scope.orderProp = 'dateAdded';
+      }
+
+   };
+
+
     $scope.orderProp = 'name';
+    $scope.tvshows = TVShows.query();
+    
   }]);
 
 phonecatControllers.controller('DetailTVShowCtrl', ['$scope', '$stateParams', 'TVShow',

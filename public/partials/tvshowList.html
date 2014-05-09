@@ -5,8 +5,20 @@
 <div class="section-inner">
 <section ng-class="{'list-aside': $state.includes('tvshows.detail')}" class="list-center">
 		
+		<div class="btn-group btn-group-justified">
+		  <div class="btn-group">
+		    <button type="button" class="btn btn-default" ng-class="{active: orderProp == 'name'}" ng-click="tab(0)">List</button>
+		  </div>
+		  <div class="btn-group">
+		    <button type="button" class="btn btn-default" ng-class="{active: orderProp == 'dateAdded'}" ng-click="tab(1)">News</button>
+		  </div>
+		  <!-- <div class="btn-group">
+		    <button type="button" class="btn btn-default" ng-click="tab(2)">Watched</button>
+		  </div> -->
+		</div>
+
 		<ul id="movie-list"class="list-inline">
-		  <li ng-repeat='show in tvshows'>
+		  <li ng-repeat="show in tvshows | orderBy:sort">
 		    <a ui-sref='tvshows.detail({tvshowId: show.name})'>
 		      	<img src='{{show.img}}' alt='{{show.name}}'/>
 		      	<h4>{{show.name}}</h4>
