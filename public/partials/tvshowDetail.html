@@ -9,7 +9,12 @@
     	<h3>({{tvshow.dateRelease}})</h3>
     	<div class="rate">
     		<div class="rate-back"></div>
-    		<div class="rate-front" style="width:{{tvshow.voteAverage * 20}}px;"></div>
+    		<div class="rate-text">
+        		{{tvshow.voteAverage}}/10
+        	</div>
+    		<div class="rate-front-container">
+       			<div class="rate-front" style="width:{{tvshow.voteAverage * 20}}px;"></div>
+        	</div>
     	</div>
 	</div>
 	</div>
