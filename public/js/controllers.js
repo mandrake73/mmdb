@@ -15,7 +15,7 @@ phonecatControllers.controller('IndexMovieListCtrl', ['$scope', 'Movies',
     return item[$scope.orderProp];
   }
 
-   $scope.orderProp='dateAdded';
+   //$scope.orderProp='date';
 
     $scope.tab = function (tabIndex) {
 
@@ -23,11 +23,10 @@ phonecatControllers.controller('IndexMovieListCtrl', ['$scope', 'Movies',
       if (tabIndex == 0){
         //alert(tabIndex);
         $scope.orderProp='name';
-
       }   
       //Sort by views 
       if (tabIndex == 1){
-        $scope.orderProp = 'dateAdded';
+        $scope.orderProp = 'date';
       }
 
    };
@@ -60,19 +59,16 @@ phonecatControllers.controller('IndexTVShowListCtrl', ['$scope', 'TVShows',
     return item[$scope.orderProp];
   }
 
-   $scope.orderProp='dateAdded';
-
     $scope.tab = function (tabIndex) {
 
      //Sort by date
       if (tabIndex == 0){
         //alert(tabIndex);
         $scope.orderProp='name';
-
       }   
       //Sort by views 
       if (tabIndex == 1){
-        $scope.orderProp = 'dateAdded';
+        $scope.orderProp = 'date';
       }
 
    };
