@@ -20,7 +20,10 @@
 		<ul id="movie-list"class="list-inline">
 		  <li ng-repeat="show in tvshows | orderBy : sort : reverse">
 		    <a ui-sref='tvshows.detail({tvshowId: show.name})'>
-		      	<img src='{{show.img}}' alt='{{show.name}}'/>
+		    	<div class="list-thumb-container">
+			      	<img src='{{show.img}}' alt='{{show.name}}'/>
+			      	<img src='./img/new.png' class="list-thumb-new" ng-show='{{show.isNew}}'></img>
+		      	</div>
 		      	<h4>{{show.name}}</h4>
 			</a>
 		  </li>

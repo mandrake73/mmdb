@@ -32,12 +32,16 @@ exports.movies = function (req, res) {
   
 	manager.selectAllMovies(function (err, row) {
 		if (row != null) {
+
+			var tsNow = Date.now();
+
 			movies.push({
 	      		name: row['name'],
 	      		url: row['url'],
 	      		date: row['dateAdded'],
 				img: config.imageBaseUrl + config.posterSize + row['img'],
-				originalTitle: row['originalTitle']
+				originalTitle: row['originalTitle'],
+				isNew: isNew(row['dateAdded'], tsNow, 24*60*60)
 	    	});
 		}
 	},
@@ -48,6 +52,14 @@ exports.movies = function (req, res) {
 	});
 		
 };
+
+function isNew(date1, date2, delay) {
+
+	if (((date2/1000 - date1/1000)) <= delay)
+		return true;
+
+	return false;
+}
 
 exports.movie = function (req, res) {
   	var name = req.params.name;
@@ -77,11 +89,15 @@ exports.tvshows = function (req, res) {
   
 	manager.selectAllTVShows(function (err, row) {
 		if (row != null) {
+
+			var tsNow = Date.now();
+
 			movies.push({
 	      		name: row['name'],
 	      		url: row['url'],
 	      		date: row['dateAdded'],
 				img: config.imageBaseUrl + config.posterSize + row['img'],
+				isNew: isNew(row['dateAdded'], tsNow, 24*60*60)
 	    	});
 		}
 	},
@@ -96,7 +112,6 @@ exports.tvshows = function (req, res) {
 exports.tvshow = function (req, res) {
   	var name = req.params.name;
 	manager.selectTVShow(name, function (err, row) {
-		console.log(row);
 		var show = {
 			name: row[0]['name'],
 			dateAdded: row[0]['dateAdded'],

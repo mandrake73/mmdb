@@ -20,8 +20,11 @@
 		<ul id="movie-list"class="list-inline">
 		  <li ng-repeat="movie in movies | orderBy : sort : reverse">
 		    <a ui-sref='movies.detail({movieId: movie.name})'>
-		      <img src='{{movie.img}}' alt='{{movie.name}}'/>
-		      <h4>{{movie.name}} - {{reverse}}</h4>
+		    	<div class="list-thumb-container">
+		      		<img src='{{movie.img}}' alt='{{movie.name}}'/>
+		      		<img src='./img/new.png' class="list-thumb-new" ng-show='{{movie.isNew}}'/>
+		      	</div>
+		      <h4>{{movie.name}}</h4>
 			</a>
 		  </li>
 		</ul>

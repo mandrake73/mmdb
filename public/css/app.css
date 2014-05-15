@@ -254,5 +254,18 @@ ul.list-inline li img {
 
 }
 
+.list-thumb-new
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+}
+
+.list-thumb-container
+{
+	position: relative;
+}
+
 
 
