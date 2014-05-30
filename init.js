@@ -48,6 +48,13 @@ var walk = function(root, dir, videoType, done) {
 };
 
 var eachMovieCallBack = function (data, callback) {
+
+	if (data == null)
+	{
+		callback();
+		return ;
+	}
+
 	console.log("dir: " + data.dirPath + " - file: " + data.filePath);
 	var mv = new model.Movie();
 	mv.name = data.dirPath.replace(data.rootPath, '');
