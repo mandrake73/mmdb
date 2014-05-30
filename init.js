@@ -374,7 +374,7 @@ var eachTVShowCallBack = function (data, callback) {
 }
 
 var extractSeasonEpisodeFromTitle = function (title) {
-	var res = title.match(/[s|S]?(\d{1,2})[e|E|x|X](\d{1,2})/);
+	var res = title.match(/[s|S|Season|season|Season |season ]?(\d{1,2})[e|E|x|X|Episode|episode|Episode |episode ](\d{1,2})/);
 	
 	if (res != null && res.length >= 3)
 	{
