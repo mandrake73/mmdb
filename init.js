@@ -5,8 +5,10 @@ var mDB = require('moviedb')('88aeab692b4d1114d6fde07acca23741');
 var manager = require("./manager");
 var model = require("./model");
 var config = require("./config");
+var chokidar = require('chokidar');
+var pathT = require('path');
 
-
+//useless now we have watchdog
 var walk = function(root, dir, videoType, done) {
   var results = [];
 
@@ -409,7 +411,52 @@ var extractSeasonEpisodeFromTitle = function (title) {
 	});*/
 }
 
+var queueSerieToAdd = new Array();
+var queueMovieToAdd = new Array();
+var serieProcessInProgress = false;
+var movieProcessInProgress = false;
 
+var processQueue = function (queue)
+{
+	if ((queue == queueSerieToAdd && serieProcessInProgress) || (queue == queueMovieToAdd && movieProcessInProgress))
+		return ;
+	if (queue == queueSerieToAdd)
+	{
+		serieProcessInProgress = true;
+		var item = queueSerieToAdd.shift();
+		if (item != null)
+		{
+			eachTVShowCallBack(item, function ()
+			{
+				serieProcessInProgress = false;
+				processQueue(queueSerieToAdd);
+			});
+		}
+		else
+		{
+			serieProcessInProgress = false;
+			return ;
+		}
+	}
+	else if (queue == queueMovieToAdd)
+	{
+		movieProcessInProgress = true;
+		var item = queueMovieToAdd.shift();
+		if (item != null)
+		{
+			eachMovieCallBack(item, function ()
+			{
+				movieProcessInProgress = false;
+				processQueue(queueMovieToAdd);
+			});
+		}
+		else
+		{
+			movieProcessInProgress = false;
+			return ;
+		}
+	}
+}
 
 var init = function() {
 	manager.initDb();
@@ -417,66 +464,40 @@ var init = function() {
 		config.imageBaseUrl = res['images']['base_url']; 
 		config.posterSize = res['images']['poster_sizes'][0];
 		
+
+
 		console.log('The  MDB Config : image base url = ' + config.imageBaseUrl + ' - poster size = config.posterSize');
 		
-		//Scan MOVIES
-		async.series([
-			function (callback) {	
-				//Scan TVSHOWS		
-				walk(config.moviesPath, config.moviesPath, 'movie', callback);
-			},
-		],
-		function (err, res) {
-			if (err) {
-				throw err;
+		var watcher = chokidar.watch('file or dir', {ignored: /[\/\\]\./, persistent: false});
+
+		watcher.on('add', function(path, stats) {
+			//console.log('File', path, 'changed size to', stats.size);
+			console.log('--- File', path, 'detected. Size=', stats.size, '---');
+			var filePath = path;
+			var dirPath = pathT.dirname(path);
+
+			if (path.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)/gi) == null || path.indexOf("/.") != -1) {
+				return ;
 			}
-			else {
-				console.log("Movie Walk over\n");
-				//console.log(res[0]);
-				async.eachSeries(res[0], function (item, callback) {
-					eachMovieCallBack(item, callback);
-				},
-				function (err) {
-					// if any of the file processing produced an error, err would equal that error
-					if( err ) {
-						// One of the iterations produced an error.
-						// All processing will now stop.
-						console.log('A file failed to process');
-					} else {
-						console.log('All files have been processed successfully');
-					}
-				});
+			if (dirPath.indexOf(config.moviesPath) > -1)
+			{
+
+				var item = {rootPath:config.moviesPath, dirPath: dirPath, filePath: path, statInfo: stats};
+				queueMovieToAdd.push(item);
+				processQueue(queueMovieToAdd);
+			}
+			else if (dirPath.indexOf(config.seriesPath) > -1)
+			{
+
+				var item = {rootPath:config.seriesPath, dirPath: dirPath, filePath: path, statInfo: stats};
+				queueSerieToAdd.push(item);
+				processQueue(queueSerieToAdd);
 			}
 		});
-		
-		//Scan TVSHOWS	
-		async.series([
-			function (callback) {		
-				walk(config.seriesPath, config.seriesPath, 'tvshow', callback);
-			},
-		],
-		function (err, res) {
-			if (err) {
-				throw err;
-			}
-			else {
-				console.log("Serie Walk over\n");
-				//console.log(res[0]);
-				async.eachSeries(res[0], function (item, callback) {
-					eachTVShowCallBack(item, callback);
-				},
-				function (err) {
-					// if any of the file processing produced an error, err would equal that error
-					if( err ) {
-						// One of the iterations produced an error.
-						// All processing will now stop.
-						console.log('A file failed to process');
-					} else {
-						console.log('All files have been processed successfully');
-					}
-				});
-			}
-		});
+
+		watcher.add(config.moviesPath);
+		watcher.add(config.seriesPath);
+
 	});
 };
 
