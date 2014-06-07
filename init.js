@@ -394,21 +394,122 @@ var extractSeasonEpisodeFromTitle = function (title) {
 		console.log("Can not extract season and episode number from " + title)
 		return null;
 	}
+}
 
-/*	manager.selectTVShow(mv.name, function (err, rows) {
-		if (rows == null || rows.length == 0) {
-			fetchFromTVDB(mv, function (fullMovie) {
-				manager.insertTVShow(fullMovie, function (err) {
-						console.log(mv.name + " inserted into DB\n");
-				});
-					
+var updateTVShowSubtitle = function (data, callback) {
+	
+	if (data == null)
+	{
+		callback();
+		return ;
+	}
+	
+	console.log("dir: " + data.dirPath + " - file: " + data.filePath + " - root:" + data.rootPath);
+	
+	var mv = new model.TVShow();
+	mv.name = data.dirPath.replace(data.rootPath, '');
+		//console.log("1: " + mv.name);
+	mv.name = mv.name.split('/');
+		//console.log("2: " + mv.name);
+	
+	if (mv.name.length > 1) {
+		mv.name = mv.name[1];
+	}
+	else {
+		mv.name = mv.name[0];
+	}
+		//console.log("3: " + mv.name);
+	mv.dirPath = data.dirPath;
+	mv.filePath = data.filePath;
+	//mv.type = videoType;
+	mv.dateAdded = data.statInfo.ctime.getTime();
+		//console.log(mv.filePath + ' match !!');
+	
+	/*fetchFromTVDB(mv, function (fullTVShow) {
+	console.log("\n");	
+	});*/	
+	var seasonInfo = extractSeasonEpisodeFromTitle(mv.filePath);
+	if (seasonInfo == null)
+	{
+		console.log("Can't extract episode season info from " + mv.name + "(file=" + mv.filePath + ")");
+		callback();
+		return ;
+	}
+	
+	mv.seasonNumber = seasonInfo.season;
+	mv.episodeNumber = seasonInfo.episode;			
+	
+	
+	var fullShow;
+	var selectedRow;
+	async.series([
+		//Checking if Show already exist and insert into DB
+		function (callback) {
+			manager.selectTVShow(mv.name, function (err, rows) {
+				if (err) {
+					throw err;
+				}
+				if (rows != null && rows.length != 0) {
+					selectedRow = rows[0];
+					mv.id = selectedRow['id'];
+					callback();
+				}
+				else
+				{
+					throw new Error('No serie for subtitle ' + data.filePath);
+				}
 			});
-			
+		},
+		function (callback) {
+			manager.selectTVShowSeason(mv.id, mv.seasonNumber, function (err, rows) {
+				if (err) {
+					throw err;
+				}
+				if (rows != null && rows.length != 0) {
+					selectedRow = rows[0];
+					mv.seasonId = selectedRow['id'];
+					callback();		
+				}
+				else
+				{
+					throw new Error('No Season for subtitle ' + data.filePath);
+				}
+
+			});
+		},
+		function (callback) {
+			manager.selectTVShowEpisode(mv.id, mv.seasonId, mv.episodeNumber, function (err, rows) {
+				if (err) {
+					throw err;
+				}
+				if (rows != null && rows.length != 0) {
+					selectedRow = rows[0];
+					mv.filePath = selectedRow['filePath'];
+
+					manager.updateTVShowEpisodeSubtitle(selectedRow['id'], data.filePath, function (err) {
+							if (err) {
+								throw err;
+							}
+							callback();
+					});
+				}
+				else
+				{
+					throw new Error('No Episode for subtitle ' + data.filePath);
+				}
+
+			});
+		}
+	],
+	function (err, res) {
+		if (err) {
+			throw err;
 		}
 		else {
-			console.log("TVShow " + mv.name + " already exist in DB" + "\n");
+			callback();
 		}
-	});*/
+	});
+
 }
 
 var queueSerieToAdd = new Array();
@@ -426,11 +527,21 @@ var processQueue = function (queue)
 		var item = queueSerieToAdd.shift();
 		if (item != null)
 		{
-			eachTVShowCallBack(item, function ()
+			if (item.filePath.match(/(.*srt$)/gi) != null) {
+				updateTVShowSubtitle(item, function (err)
+				{
+					serieProcessInProgress = false;
+					processQueue(queueSerieToAdd);	
+				});
+			}
+			else
 			{
-				serieProcessInProgress = false;
-				processQueue(queueSerieToAdd);
-			});
+				eachTVShowCallBack(item, function ()
+				{
+					serieProcessInProgress = false;
+					processQueue(queueSerieToAdd);
+				});
+			}
 		}
 		else
 		{
@@ -476,7 +587,7 @@ var init = function() {
 			var filePath = path;
 			var dirPath = pathT.dirname(path);
 
-			if (path.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)/gi) == null || path.indexOf("/.") != -1) {
+			if (path.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)|(.*srt$)/gi) == null || path.indexOf("/.") != -1) {
 				return ;
 			}
 			if (dirPath.indexOf(config.moviesPath) > -1)

@@ -83,6 +83,9 @@ var insertTVShowEpisode = function (tvshow, callback) {
 			stmt.finalize();
 };
 
+var updateTVShowEpisodeSubtitle = function (id, subtitlePath, callback) {
+			var stmt = exports.db.run("UPDATE TVShowEpisodes SET subtitlePath = ? WHERE id = ?", subtitlePath, id, callback);
+};
 
 exports.initDb = initDb;
 exports.insertMovie = insertMovie;
@@ -95,4 +98,5 @@ exports.selectTVShowSeason = selectTVShowSeason;
 exports.insertTVShowSeason = insertTVShowSeason;
 exports.selectTVShowEpisode = selectTVShowEpisode;
 exports.insertTVShowEpisode = insertTVShowEpisode;
+exports.updateTVShowEpisodeSubtitle = updateTVShowEpisodeSubtitle;
 
