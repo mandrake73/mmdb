@@ -33,12 +33,10 @@ else {
 }*/
 
 // Routes
-
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 // JSON API
-
 app.get('/api/movies', api.movies);
 app.get('/api/tvshows', api.tvshows);
 
@@ -48,6 +46,8 @@ app.get('/api/tvshows/:name', api.tvshow);
 app.post('/api/post', api.addPost);
 app.put('/api/post/:id', api.editPost);
 app.delete('/api/post/:id', api.deletePost);
+
+app.post('/api/uploaddb', api.uploaddb);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

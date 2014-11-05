@@ -5,7 +5,6 @@ var mDB = require('moviedb')('88aeab692b4d1114d6fde07acca23741');
 var manager = require("./manager");
 var model = require("./model");
 var config = require("./config");
-var chokidar = require('chokidar');
 var pathT = require('path');
 
 //useless now we have watchdog
@@ -579,7 +578,7 @@ var init = function() {
 
 		console.log('The  MDB Config : image base url = ' + config.imageBaseUrl + ' - poster size = config.posterSize');
 		
-		var watcher = chokidar.watch('file or dir', {ignored: /[\/\\]\./, persistent: false});
+		/*var watcher = chokidar.watch('file or dir', {ignored: /[\/\\]\./, persistent: false});
 
 		watcher.on('add', function(path, stats) {
 			//console.log('File', path, 'changed size to', stats.size);
@@ -608,7 +607,7 @@ var init = function() {
 
 		watcher.add(config.moviesPath);
 		watcher.add(config.seriesPath);
-
+		*/
 	});
 };
 

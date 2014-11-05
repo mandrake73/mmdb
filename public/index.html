@@ -39,6 +39,7 @@
 				</div>
 			</nav>
 	<div>
+	
 </header>
 
 <div ui-view class="section-container"></div>
@@ -46,6 +47,11 @@
 
 <div class="clearfix"></div>
 <footer>
+<form action="/api/uploaddb" enctype="multipart/form-data" method="post">
+				<input type="text" name="key">
+				<input type="file" name="file">
+				<input type="submit" value="Upload">
+			</form>
 	<div class="footer-container">
 		<a href="./transmission">Torrent</a>
 	</div>
