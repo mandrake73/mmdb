@@ -29,6 +29,9 @@
 			<nav>
 				<div class="nav-inner">
 				<ul>
+					<li ng-class="{active: $state.includes('tvshows')}">
+						<a href="#">News</a>
+					</li>
 					<li ng-class="{active: $state.includes('movies')}">
 						<a ui-sref="movies">Movies</a>
 					</li>

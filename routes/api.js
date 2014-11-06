@@ -159,6 +159,19 @@ exports.tvshow = function (req, res) {
 exports.uploaddb = function(req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
+		 if (err) 
+		 {
+           res.status(500);
+           res.json({'success': false});
+		   return ;
+		 }
+		 else if (fields.key != config.apiKey)
+		 {
+			console.log(fields.key + ' is not a valid API key');
+			res.status(500);
+			res.json({'success': false});
+			return ;
+		 }
         // `file` is the name of the <input> field of type `file`
         var old_path = files.file.path,
             file_size = files.file.size,
@@ -167,6 +180,7 @@ exports.uploaddb = function(req, res) {
             file_name = old_path.substr(index),
             new_path = path.join('C:/Temp/', files.file.name);
 	
+		console.log(fields);
 		console.log(files);
 		console.log(file_size);
 		console.log(file_name);
