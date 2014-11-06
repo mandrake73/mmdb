@@ -58,21 +58,14 @@ var eachMovieCallBack = function (data, callback) {
 
 	console.log("dir: " + data.dirPath + " - file: " + data.filePath);
 	var mv = new model.Movie();
-	mv.name = data.dirPath.replace(data.rootPath, '');
-	mv.name = mv.name.split('/');
+	mv.name = data.dirPath;
 
-	if (mv.name.length > 1) {
-		mv.name = mv.name[1];
-	}
-	else {
-		mv.name = mv.name[0];
-	}
 	
 	mv.dirPath = data.dirPath;
 	mv.filePath = data.filePath;
 	mv.type = 'movie';
-	mv.dateAdded = data.statInfo.ctime.getTime();
-	console.log(mv.filePath + ' match !!');
+	mv.dateAdded = data.date.getTime();
+	
 	manager.selectMovie(mv.name, function (err, rows) {
 		if (rows == null || rows.length == 0) {
 			fetchFromMovieDB(mv, function (fullMovie) {
@@ -511,34 +504,36 @@ var updateTVShowSubtitle = function (data, callback) {
 
 }
 
-var queueSerieToAdd = new Array();
-var queueMovieToAdd = new Array();
+//var queueSerieToAdd = new Array();
+//var queueMovieToAdd = new Array();
 var serieProcessInProgress = false;
 var movieProcessInProgress = false;
 
-var processQueue = function (queue)
+var processQueue = function (queue, typeImport)
 {
-	if ((queue == queueSerieToAdd && serieProcessInProgress) || (queue == queueMovieToAdd && movieProcessInProgress))
+	console.log('processing ' + typeImport);
+	if ((typeImport == 'tvshow' && serieProcessInProgress) || (typeImport = 'movie' && movieProcessInProgress))
 		return ;
-	if (queue == queueSerieToAdd)
+	if (typeImport == 'tvshow')
 	{
 		serieProcessInProgress = true;
-		var item = queueSerieToAdd.shift();
+		var item = queue.shift();
 		if (item != null)
 		{
 			if (item.filePath.match(/(.*srt$)/gi) != null) {
-				updateTVShowSubtitle(item, function (err)
-				{
+				//TODO repair this. Be carful, what can we do if srt come first
+				//updateTVShowSubtitle(item, function (err)
+				//{
 					serieProcessInProgress = false;
-					processQueue(queueSerieToAdd);	
-				});
+					processQueue(queue, typeImport);	
+				//});
 			}
 			else
 			{
 				eachTVShowCallBack(item, function ()
 				{
 					serieProcessInProgress = false;
-					processQueue(queueSerieToAdd);
+					processQueue(queue, typeImport);
 				});
 			}
 		}
@@ -548,17 +543,26 @@ var processQueue = function (queue)
 			return ;
 		}
 	}
-	else if (queue == queueMovieToAdd)
+	else if (typeImport = 'movie')
 	{
 		movieProcessInProgress = true;
-		var item = queueMovieToAdd.shift();
+		var item = queue.shift();
 		if (item != null)
 		{
-			eachMovieCallBack(item, function ()
-			{
+			console.log(item.filePath);
+			if (item.filePath.match(/(.*srt$)/gi) != null) {
+				//TODO handle srt
 				movieProcessInProgress = false;
-				processQueue(queueMovieToAdd);
-			});
+				processQueue(queue, typeImport);
+			}
+			else
+			{
+				eachMovieCallBack(item, function ()
+				{
+					movieProcessInProgress = false;
+					processQueue(queue, typeImport);
+				});
+			}
 		}
 		else
 		{
@@ -589,6 +593,7 @@ var init = function() {
 			if (path.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)|(.*srt$)/gi) == null || path.indexOf("/.") != -1) {
 				return ;
 			}
+
 			if (dirPath.indexOf(config.moviesPath) > -1)
 			{
 
@@ -612,3 +617,4 @@ var init = function() {
 };
 
 exports.initAll = init;
+exports.processImportQUeue = processQueue;

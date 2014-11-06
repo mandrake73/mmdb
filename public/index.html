@@ -29,7 +29,7 @@
 			<nav>
 				<div class="nav-inner">
 				<ul>
-					<li ng-class="{active: $state.includes('tvshows')}">
+					<li >
 						<a href="#">News</a>
 					</li>
 					<li ng-class="{active: $state.includes('movies')}">
@@ -51,7 +51,8 @@
 <div class="clearfix"></div>
 <footer>
 <form action="/api/uploaddb" enctype="multipart/form-data" method="post">
-				<input type="text" name="key">
+				<input type="text" name="key" value="ABCD">
+				<input type="text" name="type" value="movie">
 				<input type="file" name="file">
 				<input type="submit" value="Upload">
 			</form>

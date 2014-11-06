@@ -2,7 +2,8 @@
 var file = require('file');
 var manager = require('../manager');
 var config = require('../config');
-var tools = require('../tools')
+var tools = require('../tools');
+var init = require('../init');
 var path = require('path');
 var formidable = require('formidable');
 var fs = require("fs");
@@ -156,6 +157,7 @@ exports.tvshow = function (req, res) {
 
 // POST
 
+
 exports.uploaddb = function(req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
@@ -172,33 +174,52 @@ exports.uploaddb = function(req, res) {
 			res.json({'success': false});
 			return ;
 		 }
-        // `file` is the name of the <input> field of type `file`
-        var old_path = files.file.path,
-            file_size = files.file.size,
-            file_ext = files.file.name.split('.').pop(),
-            index = old_path.lastIndexOf('/') + 1,
-            file_name = old_path.substr(index),
-            new_path = path.join('C:/Temp/', files.file.name);
-	
-		console.log(fields);
-		console.log(files);
-		console.log(file_size);
-		console.log(file_name);
-		console.log(new_path);
- 
-        fs.readFile(old_path, function(err, data) {
-            fs.writeFile(new_path, data, function(err) {
-                fs.unlink(old_path, function(err) {
-                    if (err) {
-                        res.status(500);
-                        res.json({'success': false});
-                    } else {
-                        res.status(200);
-                        res.json({'success': true});
-                    }
-                });
-            });
-        });
+		 else if (fields.type != 'movie' && fields.type != 'tvshow')
+		 {
+		 	console.log(fields.type + ' is not a valid type');
+			res.status(500);
+			res.json({'success': false});
+			return ;	
+		 }
+        
+		var queueSerieToAdd = new Array();
+		var queueMovieToAdd = new Array();
+
+
+		 fs.readFileSync(files.file.path).toString().split('\n').forEach(function (line) { 
+		 	if (line.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)|(.*srt$)/gi) == null)
+    		{
+    			return ;
+    		}
+		 	
+		 	var parts = line.split('|&|');
+		 	var date = new Date(parts[0]);
+		 	var filePath = parts[1];
+    		var dirPath = path.dirname(filePath);
+    		
+    		console.log(date);
+    		console.log(filePath);
+    		console.log(dirPath);
+    		console.log(fields.type);
+
+    		if (fields.type == 'movie')
+    		{
+    			var item = {dirPath: dirPath, filePath: filePath, date: date};
+				queueMovieToAdd.push(item);
+				init.processImportQUeue(queueMovieToAdd, 'movie');
+    		}
+    		else if (fields.type == 'tvshow')
+    		{
+    			/*
+    			var item = {rootPath:config.seriesPath, dirPath: dirPath, filePath: path, statInfo: stats};
+				queueSerieToAdd.push(item);
+				processImportQUeue(queueSerieToAdd);
+    			*/
+    		}
+    		return;
+		});
+		 res.status(200);
+			res.json({'success': true});
     });
 };
 
