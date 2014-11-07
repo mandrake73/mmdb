@@ -14,7 +14,7 @@
   },
   "scripts": {
     "postinstall": "HOME=$HOME/app-root/runtime bower install",
-    "start": "node app.js",
+    "start": "node server.js",
     "test": "karma start test/karma.conf.js",
     "update-webdriver": "webdriver-manager update",
     "protractor": "protractor test/protractor-conf.js",
