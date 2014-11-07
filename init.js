@@ -70,6 +70,11 @@ var eachMovieCallBack = function (data, callback) {
 		if (rows == null || rows.length == 0) {
 			fetchFromMovieDB(mv, function (fullMovie) {
 				//results.push(fullMovie);
+				if (fullMovie == null)
+				{
+					callback();
+					return ;
+				}
 				manager.insertMovie(fullMovie, function (err) {
 					if (err) {
 						throw err;
@@ -120,7 +125,7 @@ var fetchFromMovieDB = function (movie, callback) {
 			}
 		}
 		console.log('fetchFromMovieDB for ' + movie.name + ' return nothing');
-		
+		callback(null);
 	});
 }
 
