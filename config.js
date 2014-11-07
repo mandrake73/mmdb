@@ -14,6 +14,6 @@ exports.mediumPosterSize = 'w154';
 exports.mdbBaseUrl = 'https://www.themoviedb.org/movie/';
 exports.imdbBaseUrl = 'http://www.imdb.com/title/';
 
-exports.apiKey = 'ABCD';
+exports.apiKey = 'VWXYZ';
 exports.urlFileStore = 'http://home.aureliendepalma.com/mvdb/'
 exports.tempDir = '/tmp'
