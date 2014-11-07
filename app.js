@@ -55,7 +55,7 @@ app.get('*', routes.index);
 
 // Start server
 
-var server = http.createServer(app).listen(3000, function(){
+var server = http.createServer(app).listen(process.env.OPENSHIFT_NODEJS_PORT || 3000, function(){
 	console.log('Start init db');
 	wait.launchFiber(function () {
 		init.initAll();
