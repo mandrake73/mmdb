@@ -13,7 +13,7 @@
     "shelljs": "^0.2.6"
   },
   "scripts": {
-    "postinstall": "export HOME=/var/lib/openshift/videotek/app-root/runtime/repo; ./node_modules/bower/bin/bower install",
+    "postinstall": "HOME=$HOME/app-root/runtime bower install",
     "start": "node app.js",
     "test": "karma start test/karma.conf.js",
     "update-webdriver": "webdriver-manager update",
