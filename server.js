@@ -51,10 +51,20 @@ app.post('/api/uploaddb', api.uploaddb);
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 
+var self = this;
+
+self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
+self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 // Start server
-
-var server = http.createServer(app).listen(process.env.OPENSHIFT_NODEJS_PORT || 3000, function(){
+if (typeof self.ipaddress === "undefined") {
+            //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
+            //  allows us to run/test the app locally.
+            console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
+            self.ipaddress = "127.0.0.1";
+};
+		
+var server = http.createServer(app).listen(self.port, self.ipaddress, function(){
 	console.log('Start init db');
 	wait.launchFiber(function () {
 		init.initAll();
