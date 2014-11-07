@@ -3,6 +3,8 @@
  * Module dependencies.
  */
 var express = require('express'),
+config = require('./config'),
+basicAuth = require('basic-auth'),
   routes = require('./routes'),
   api = require('./routes/api'),
   init = require('./init'),
@@ -31,6 +33,22 @@ else {
   app.use(errorHandler());	
 }*/
 
+// Synchronous Function
+var auth = function(username, password) {
+  return function(req, res, next) {
+    var user = basicAuth(req);
+
+    if (!user || user.name !== username || user.pass !== password) {
+      res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+      return res.send(401);
+    }
+
+    next();
+  };
+};
+
+app.use('/', auth(config.user, config.passwd));
+
 // Routes
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
@@ -49,7 +67,7 @@ app.delete('/api/post/:id', api.deletePost);
 app.post('/api/uploaddb', api.uploaddb);
 
 // redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
+app.get('*', auth, routes.index);
 
 var self = this;
 

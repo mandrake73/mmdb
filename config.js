@@ -19,6 +19,7 @@ exports.apiKey = 'VWXYZ';
 exports.urlFileStore = 'http://home.aureliendepalma.com/mvdb/'
 exports.tempDir = '/tmp'
 
-exports.passwdPath = './.htpwd'
+exports.user = 'test'
+exports.passwd = 'test'
 
 

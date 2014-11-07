@@ -185,7 +185,7 @@ exports.uploaddb = function(req, res) {
 		var queueSerieToAdd = new Array();
 		var queueMovieToAdd = new Array();
 
-
+		var i =0;
 		 fs.readFileSync(files.file.path).toString().split('\n').forEach(function (line) { 
 		 	if (line.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)|(.*srt$)/gi) == null)
     		{
@@ -202,9 +202,11 @@ exports.uploaddb = function(req, res) {
     		console.log(dirPath);
     		console.log(fields.type);
 
+
     		if (fields.type == 'movie')
     		{
-    			var item = {dirPath: dirPath, filePath: filePath, date: date};
+    			var item = {dirPath: dirPath, filePath: filePath, date: date, counter: i++};
+    			console.log('queuing movie' + i);
 				queueMovieToAdd.push(item);
 				init.processImportQUeue(queueMovieToAdd, 'movie');
     		}
@@ -216,6 +218,7 @@ exports.uploaddb = function(req, res) {
 				processImportQUeue(queueSerieToAdd);
     			*/
     		}
+    		
     		return;
 		});
 		 res.status(200);

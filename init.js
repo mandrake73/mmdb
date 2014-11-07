@@ -56,7 +56,7 @@ var eachMovieCallBack = function (data, callback) {
 		return ;
 	}
 
-	console.log("dir: " + data.dirPath + " - file: " + data.filePath);
+	console.log("dir: " + data.dirPath + " - file: " + data.filePath + " - counter: " + data.counter);
 	var mv = new model.Movie();
 	mv.name = data.dirPath;
 
@@ -75,6 +75,7 @@ var eachMovieCallBack = function (data, callback) {
 						throw err;
 					}
 					else {
+						console.log("movie " + data.counter + " inserted");
 						callback();
 					}
 				});
@@ -83,7 +84,7 @@ var eachMovieCallBack = function (data, callback) {
 			console.log("\n");
 		}
 		else {
-			console.log("Movie " + mv.name + " already exist in DB" + "\n");
+			console.log("Movie " + mv.name + " already exist in DB (counter:" + data.counter + ")" + "\n");
 			callback();
 		}
 	});
@@ -110,8 +111,8 @@ var fetchFromMovieDB = function (movie, callback) {
 					movie.imdbId = res['imdb_id'];
 					movie.runtime = res['runtime'];
 					
-					console.log(movie);
-					console.log("\n");
+					//console.log(movie);
+					//console.log("\n");
 					
 					callback(movie);	
 				})
@@ -549,7 +550,8 @@ var processQueue = function (queue, typeImport)
 		var item = queue.shift();
 		if (item != null)
 		{
-			console.log(item.filePath);
+
+			console.log('picking item' + item.counter);
 			if (item.filePath.match(/(.*srt$)/gi) != null) {
 				//TODO handle srt
 				movieProcessInProgress = false;
