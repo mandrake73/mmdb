@@ -38,12 +38,12 @@ exports.movies = function (req, res) {
 		if (row != null) {
 
 			var tsNow = Date.now();
-
+			console.log(row);
 			movies.push({
 	      		name: row['name'],
 	      		url: row['url'],
 	      		date: row['dateAdded'],
-				img: config.imageBaseUrl + config.posterSize + row['img'],
+				img: (row['img'] != null ? config.imageBaseUrl + config.posterSize + row['img'] : './img/no-poster-' + config.posterSize + '.png'),
 				originalTitle: row['originalTitle'],
 				isNew: isNew(row['dateAdded'], tsNow, 24*60*60)
 	    	});
@@ -71,7 +71,7 @@ exports.movie = function (req, res) {
 		var movie = {
 			name: row[0]['name'],
 			dateAdded: row[0]['dateAdded'],
-			img: config.imageBaseUrl + config.mediumPosterSize + row[0]['img'],
+			img: (row['img'] != null ? config.imageBaseUrl + config.mediumPosterSize + row[0]['img'] : './img/no-poster-' + config.mediumPosterSize + '.png'),
 			dateRelease: new Date(row[0]['dateRelease']).getFullYear(),
 			originalTitle: row[0]['originalTitle'],
 			voteAverage: row[0]['voteAverage'],

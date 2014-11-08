@@ -47,7 +47,7 @@ var auth = function(username, password) {
   };
 };
 
-app.use('/', auth(config.user, config.passwd));
+app.use('*', auth(config.user, config.passwd));
 
 // Routes
 app.get('/', routes.index);
@@ -67,7 +67,7 @@ app.delete('/api/post/:id', api.deletePost);
 app.post('/api/uploaddb', api.uploaddb);
 
 // redirect all others to the index (HTML5 history)
-app.get('*', auth, routes.index);
+app.get('*', routes.index);
 
 var self = this;
 

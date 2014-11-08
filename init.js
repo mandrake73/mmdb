@@ -98,6 +98,7 @@ var eachMovieCallBack = function (data, callback) {
 var fetchFromMovieDB = function (movie, callback) {
 	mDB.searchMovie({query: movie.name }, function(err, res){
 	  var mdbmv;
+	  //console.log(res);
 		if (err != null) console.log(err);
 		if (res != null) {
 			mdbmv = res['results']
