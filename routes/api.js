@@ -71,7 +71,7 @@ exports.movie = function (req, res) {
 		var movie = {
 			name: row[0]['name'],
 			dateAdded: row[0]['dateAdded'],
-			img: (row['img'] != null ? config.imageBaseUrl + config.mediumPosterSize + row[0]['img'] : './img/no-poster-' + config.mediumPosterSize + '.png'),
+			img: (row[0]['img'] != null ? config.imageBaseUrl + config.mediumPosterSize + row[0]['img'] : './img/no-poster-' + config.mediumPosterSize + '.png'),
 			dateRelease: new Date(row[0]['dateRelease']).getFullYear(),
 			originalTitle: row[0]['originalTitle'],
 			voteAverage: row[0]['voteAverage'],
