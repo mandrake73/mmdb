@@ -194,7 +194,8 @@ exports.uploaddb = function(req, res) {
 		 	
 		 	var parts = line.split('|&|');
 		 	var date = new Date(parts[0]);
-		 	var filePath = parts[1];
+		 	var size = parts[1];
+		 	var filePath = parts[2];
     		var dirPath = path.dirname(filePath);
     		
     		console.log(date);
@@ -206,9 +207,16 @@ exports.uploaddb = function(req, res) {
     		if (fields.type == 'movie')
     		{
     			var item = {dirPath: dirPath, filePath: filePath, date: date, counter: i++};
-    			console.log('queuing movie' + i);
-				queueMovieToAdd.push(item);
-				init.processImportQUeue(queueMovieToAdd, 'movie');
+    			if (size > 100000)
+    			{
+    				console.log('queuing movie' + i);
+					queueMovieToAdd.push(item);
+					init.processImportQUeue(queueMovieToAdd, 'movie');
+    			}
+    			else
+    			{
+    				console.log('Size too small (' + size + '): Not queuing movie ' + filePath)
+    			}
     		}
     		else if (fields.type == 'tvshow')
     		{
