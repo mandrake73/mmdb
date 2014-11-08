@@ -1,0 +1,87 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'basicAuth' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 warn package.json karma-chrome-launcher@0.1.5 No README data
+5 warn package.json moviedb@0.1.1 No repository field.
+6 warn package.json karma-phantomjs-launcher@0.1.4 No README data
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'basicAuth', null ]
+9 verbose cache add name=undefined spec="basicAuth" args=["basicAuth",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'basicAuth',
+10 verbose parsed url   path: 'basicAuth',
+10 verbose parsed url   href: 'basicAuth' }
+11 silly lockFile 0ce31489-basicAuth basicAuth
+12 verbose lock basicAuth /Users/mandrake73/.npm/0ce31489-basicAuth.lock
+13 silly lockFile 0ce31489-basicAuth basicAuth
+14 silly lockFile 0ce31489-basicAuth basicAuth
+15 verbose addNamed [ 'basicAuth', '' ]
+16 verbose addNamed [ null, '*' ]
+17 silly lockFile ce17ae93-basicAuth basicAuth@
+18 verbose lock basicAuth@ /Users/mandrake73/.npm/ce17ae93-basicAuth.lock
+19 silly addNameRange { name: 'basicAuth', range: '*', hasData: false }
+20 verbose request where is /basicAuth
+21 verbose request registry https://registry.npmjs.org/
+22 verbose request id 4f73a1c9624edcab
+23 verbose url raw /basicAuth
+24 verbose url resolving [ 'https://registry.npmjs.org/', './basicAuth' ]
+25 verbose url resolved https://registry.npmjs.org/basicAuth
+26 verbose request where is https://registry.npmjs.org/basicAuth
+27 info trying registry request attempt 1 at 21:00:43
+28 http GET https://registry.npmjs.org/basicAuth
+29 http 404 https://registry.npmjs.org/basicAuth
+30 verbose headers { date: 'Fri, 07 Nov 2014 13:00:45 GMT',
+30 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+30 verbose headers   'content-type': 'application/json',
+30 verbose headers   'cache-control': 'max-age=0',
+30 verbose headers   'content-length': '52',
+30 verbose headers   'accept-ranges': 'bytes',
+30 verbose headers   via: '1.1 varnish',
+30 verbose headers   age: '0',
+30 verbose headers   'x-served-by': 'cache-hk90-HKG',
+30 verbose headers   'x-cache': 'MISS',
+30 verbose headers   'x-cache-hits': '0',
+30 verbose headers   'x-timer': 'S1415365244.842690,VS0,VE782',
+30 verbose headers   'keep-alive': 'timeout=10, max=50',
+30 verbose headers   connection: 'Keep-Alive' }
+31 silly registry.get cb [ 404,
+31 silly registry.get   { date: 'Fri, 07 Nov 2014 13:00:45 GMT',
+31 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+31 silly registry.get     'content-type': 'application/json',
+31 silly registry.get     'cache-control': 'max-age=0',
+31 silly registry.get     'content-length': '52',
+31 silly registry.get     'accept-ranges': 'bytes',
+31 silly registry.get     via: '1.1 varnish',
+31 silly registry.get     age: '0',
+31 silly registry.get     'x-served-by': 'cache-hk90-HKG',
+31 silly registry.get     'x-cache': 'MISS',
+31 silly registry.get     'x-cache-hits': '0',
+31 silly registry.get     'x-timer': 'S1415365244.842690,VS0,VE782',
+31 silly registry.get     'keep-alive': 'timeout=10, max=50',
+31 silly registry.get     connection: 'Keep-Alive' } ]
+32 silly lockFile ce17ae93-basicAuth basicAuth@
+33 silly lockFile ce17ae93-basicAuth basicAuth@
+34 error 404 404 Not Found: basicAuth
+34 error 404
+34 error 404 'basicAuth' is not in the npm registry.
+34 error 404 You should bug the author to publish it
+34 error 404 It was specified as a dependency of 'angular-phonecat'
+34 error 404
+34 error 404 Note that you can also install from a
+34 error 404 tarball, folder, or http url, or git url.
+35 error System Darwin 13.4.0
+36 error command "node" "/usr/local/bin/npm" "install" "basicAuth"
+37 error cwd /Users/mandrake73/Documents/Dev/mmdb
+38 error node -v v0.10.33
+39 error npm -v 1.4.28
+40 error code E404
+41 verbose exit [ 1, true ]
