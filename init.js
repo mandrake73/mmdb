@@ -437,7 +437,9 @@ var updateTVShowSubtitle = function (data, callback) {
 				}
 				else
 				{
-					throw new Error('No Season for subtitle ' + data.filePath);
+					console.log('No Season for subtitle ' + data.filePath);
+					mv.seasonId = -1;
+					callback();
 				}
 
 			});
@@ -460,7 +462,8 @@ var updateTVShowSubtitle = function (data, callback) {
 				}
 				else
 				{
-					throw new Error('No Episode for subtitle ' + data.filePath);
+					console.log('No Episode for subtitle ' + data.filePath);
+					callback();
 				}
 
 			});
