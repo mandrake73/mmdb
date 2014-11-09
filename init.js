@@ -383,22 +383,11 @@ var updateTVShowSubtitle = function (data, callback) {
 	console.log("dir: " + data.dirPath + " - file: " + data.filePath + " - root:" + data.rootPath);
 	
 	var mv = new model.TVShow();
-	mv.name = data.dirPath.replace(data.rootPath, '');
-		//console.log("1: " + mv.name);
-	mv.name = mv.name.split('/');
-		//console.log("2: " + mv.name);
-	
-	if (mv.name.length > 1) {
-		mv.name = mv.name[1];
-	}
-	else {
-		mv.name = mv.name[0];
-	}
-		//console.log("3: " + mv.name);
+	mv.name = data.dirPath
 	mv.dirPath = data.dirPath;
 	mv.filePath = data.filePath;
-	//mv.type = videoType;
-	mv.dateAdded = data.statInfo.ctime.getTime();
+	mv.type = 'tvshow';
+	mv.dateAdded = data.date.getTime();
 		//console.log(mv.filePath + ' match !!');
 	
 	/*fetchFromTVDB(mv, function (fullTVShow) {
