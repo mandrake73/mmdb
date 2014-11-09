@@ -547,6 +547,10 @@ var processQueue = function (queue, typeImport)
 			return ;
 		}
 	}
+	else
+	{
+		console.log('Unknown typeImport=' + typeImport);
+	}
 }
 
 var init = function() {

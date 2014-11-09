@@ -209,7 +209,7 @@ exports.uploaddb = function(req, res) {
     			var item = {dirPath: dirPath, filePath: filePath, date: date, counter: i++};
     			if (size > 100000)
     			{
-    				console.log('queuing movie ' + i);
+    				console.log('queuing movie ' + i + ' (' + filePath + ')');
 					queueMovieToAdd.push(item);
 					init.processImportQueue(queueMovieToAdd, 'movie');
     			}
@@ -223,7 +223,7 @@ exports.uploaddb = function(req, res) {
     			var item = {dirPath: dirPath, filePath: filePath, date: date, counter: i++};
     			if (line.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)/gi) == null || size > 10000)
     			{
-    				console.log('queuing tvshow ' + i);
+    				console.log('queuing tvshow ' + i + ' (' + filePath + ')');
 					queueSerieToAdd.push(item);
 					init.processImportQueue(queueSerieToAdd, 'tvshow');
 				}
