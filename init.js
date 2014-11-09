@@ -233,7 +233,10 @@ var eachTVShowCallBack = function (data, callback) {
 				if (rows == null || rows.length == 0) {
 					fetchFromTVDB(mv, function (filledShow) {
 						if (filledShow == null) {
-							throw new Error('Show ' + mv.name + " don't exist in TVDB");
+							console.log('Show ' + mv.name + " don't exist in TVDB");
+							fullShow = null;
+							callback();
+							return;
 						}
 						fullShow = filledShow;
 						manager.insertTVShow(filledShow, function (err) {
@@ -279,6 +282,11 @@ var eachTVShowCallBack = function (data, callback) {
 			});
 		},
 		function (callback) {
+			if (fullShow == null)
+			{
+				callback();
+				return ;
+			}
 			console.log("checking season");
 			manager.selectTVShowSeason(mv.id, mv.seasonNumber, function (err, rows) {
 				if (err) {
@@ -313,6 +321,11 @@ var eachTVShowCallBack = function (data, callback) {
 			});
 		},
 		function (callback) {
+			if (fullShow == null)
+			{
+				callback();
+				return ;
+			}
 			console.log("checking episode");
 			manager.selectTVShowEpisode(mv.id, mv.seasonId, mv.episodeNumber, function (err, rows) {
 				if (err) {
