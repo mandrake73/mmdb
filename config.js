@@ -3,10 +3,6 @@
 exports.dbName = "mmdb.db";
 
 
-exports.moviesPath = '/tmp/Videos/Movies';
-exports.seriesPath = "/tmp/Videos/Series";
-
-
 exports.imageBaseUrl = 'http://image.tmdb.org/t/p/';
 exports.posterSize = 'w92';
 exports.mediumPosterSize = 'w154';
@@ -15,11 +11,11 @@ exports.mdbBaseUrl = 'https://www.themoviedb.org/movie/';
 exports.imdbBaseUrl = 'http://www.imdb.com/title/';
 
 
-exports.apiKey = 'VWXYZ';
-exports.urlFileStore = 'http://home.aureliendepalma.com/mvdb/'
-exports.tempDir = '/tmp'
+exports.apiKey = 'ABCD';
+exports.urlMoviesFileStore = 'http://myvideodatastore.com/'
+exports.urlTvShowFileStore = 'http://myvideodatastore.com/'
 
-exports.user = 'testt'
-exports.passwd = 'testt'
+exports.user = 'test'
+exports.passwd = 'test'
 
 

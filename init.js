@@ -194,24 +194,14 @@ var eachTVShowCallBack = function (data, callback) {
 		callback();
 		return ;
 	}
-	console.log("dir: " + data.dirPath + " - file: " + data.filePath + " - root:" + data.rootPath);
+	console.log("dir: " + data.dirPath + " - file: " + data.filePath + " - counter:" + data.counter);
 	var mv = new model.TVShow();
-	mv.name = data.dirPath.replace(data.rootPath, '');
-		//console.log("1: " + mv.name);
-	mv.name = mv.name.split('/');
-		//console.log("2: " + mv.name);
+	mv.name = data.dirPath;
 	
-	if (mv.name.length > 1) {
-		mv.name = mv.name[1];
-	}
-	else {
-		mv.name = mv.name[0];
-	}
-		//console.log("3: " + mv.name);
 	mv.dirPath = data.dirPath;
 	mv.filePath = data.filePath;
-	//mv.type = videoType;
-	mv.dateAdded = data.statInfo.ctime.getTime();
+	mv.type = 'tvshow';
+	mv.dateAdded = data.date.getTime();
 		//console.log(mv.filePath + ' match !!');
 	
 	/*fetchFromTVDB(mv, function (fullTVShow) {
@@ -229,23 +219,10 @@ var eachTVShowCallBack = function (data, callback) {
 	mv.episodeNumber = seasonInfo.episode;			
 	
 
-	//Check if subtitle exist
-	var pathNoExt = mv.filePath.substring(0, mv.filePath.lastIndexOf('.'));
-
-	if (fs.existsSync(pathNoExt + '.srt')) {
-    	mv.subtitlePath = pathNoExt + '.srt';
-	}
-	else if (fs.existsSync(pathNoExt + '.en.srt')) {
-    	mv.subtitlePath = pathNoExt + '.en.srt';
-	}
-	else if (fs.existsSync(pathNoExt + '.fr.srt')) {
-    	mv.subtitlePath = pathNoExt + '.fr.srt';
-	}
-
 	
 	var fullShow;
 	var selectedRow;
-	async.series([
+		async.series([
 		//Checking if Show already exist and insert into DB
 		function (callback) {
 			console.log("checking show");
@@ -519,7 +496,7 @@ var movieProcessInProgress = false;
 var processQueue = function (queue, typeImport)
 {
 	console.log('processing ' + typeImport);
-	if ((typeImport == 'tvshow' && serieProcessInProgress) || (typeImport = 'movie' && movieProcessInProgress))
+	if ((typeImport == 'tvshow' && serieProcessInProgress) || (typeImport == 'movie' && movieProcessInProgress))
 		return ;
 	if (typeImport == 'tvshow')
 	{
@@ -527,13 +504,13 @@ var processQueue = function (queue, typeImport)
 		var item = queue.shift();
 		if (item != null)
 		{
+			console.log('picking tvshow item ' + item.counter);
 			if (item.filePath.match(/(.*srt$)/gi) != null) {
-				//TODO repair this. Be carful, what can we do if srt come first
-				//updateTVShowSubtitle(item, function (err)
-				//{
+				updateTVShowSubtitle(item, function (err)
+				{
 					serieProcessInProgress = false;
 					processQueue(queue, typeImport);	
-				//});
+				});
 			}
 			else
 			{
@@ -550,14 +527,14 @@ var processQueue = function (queue, typeImport)
 			return ;
 		}
 	}
-	else if (typeImport = 'movie')
+	else if (typeImport == 'movie')
 	{
 		movieProcessInProgress = true;
 		var item = queue.shift();
 		if (item != null)
 		{
 
-			console.log('picking item' + item.counter);
+			console.log('picking movie item ' + item.counter);
 			if (item.filePath.match(/(.*srt$)/gi) != null) {
 				//TODO handle srt
 				movieProcessInProgress = false;
@@ -625,4 +602,4 @@ var init = function() {
 };
 
 exports.initAll = init;
-exports.processImportQUeue = processQueue;
+exports.processImportQueue = processQueue;

@@ -79,7 +79,7 @@ exports.movie = function (req, res) {
 			runtime: Math.floor(row[0]['runtime'] / 60) + 'h' + tools.zeroPadNumber(Math.floor(row[0]['runtime'] % 60), 2),
 			mdbUrl: config.mdbBaseUrl + row[0]['mdbId'],
 			imdbUrl: config.imdbBaseUrl + row[0]['imdbId'],
-			downloadUrl: row[0]['filePath'].replace(config.moviesPath, './Movies')
+			downloadUrl: config.urlMoviesFileStore + row[0]['filePath']
 		};
 		
 		res.json(
@@ -135,7 +135,7 @@ exports.tvshow = function (req, res) {
 			if (row[i]['filePath'] != null)
 			{
 				var season = "s" + row[i]['seasonNumber'].toString();
-				var infos = { url:row[i]['filePath'].replace(config.seriesPath, './Series'),
+				var infos = { url:config.urlTvShowFileStore + row[i]['filePath'],
 										season: row[i]['seasonNumber'],
 										episode: row[i]['episodeNumber'], 
 										subtitle: row[i]['subtitlePath'].replace(config.seriesPath, './Series')};
@@ -209,9 +209,9 @@ exports.uploaddb = function(req, res) {
     			var item = {dirPath: dirPath, filePath: filePath, date: date, counter: i++};
     			if (size > 100000)
     			{
-    				console.log('queuing movie' + i);
+    				console.log('queuing movie ' + i);
 					queueMovieToAdd.push(item);
-					init.processImportQUeue(queueMovieToAdd, 'movie');
+					init.processImportQueue(queueMovieToAdd, 'movie');
     			}
     			else
     			{
@@ -220,11 +220,17 @@ exports.uploaddb = function(req, res) {
     		}
     		else if (fields.type == 'tvshow')
     		{
-    			/*
-    			var item = {rootPath:config.seriesPath, dirPath: dirPath, filePath: path, statInfo: stats};
-				queueSerieToAdd.push(item);
-				processImportQUeue(queueSerieToAdd);
-    			*/
+    			var item = {dirPath: dirPath, filePath: filePath, date: date, counter: i++};
+    			if (line.match(/(.*avi$)|(.*mp4$)|(.*mkv$)|(.*wmv$)|(.*rmvb$)/gi) == null || size > 10000)
+    			{
+    				console.log('queuing tvshow ' + i);
+					queueSerieToAdd.push(item);
+					init.processImportQueue(queueSerieToAdd, 'tvshow');
+				}
+				else
+    			{
+    				console.log('Size too small (' + size + '): Not queuing tvshow ' + filePath)
+    			}
     		}
     		
     		return;
