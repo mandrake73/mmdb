@@ -434,7 +434,8 @@ var updateTVShowSubtitle = function (data, callback) {
 				}
 				else
 				{
-					throw new Error('No serie for subtitle ' + data.filePath);
+					console.log('No serie for subtitle ' + data.filePath);
+					callback();
 				}
 			});
 		},
